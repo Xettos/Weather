@@ -7,7 +7,11 @@
 
 import Foundation
 
-class WeatherNetwork {
+protocol WeatherNetworkProtocol {
+    func getWeather(latitude: Double, longitude: Double, completion: @escaping (_ weather: Weather?) -> Void)
+}
+
+class WeatherNetwork: WeatherNetworkProtocol {
     
     static let shared = WeatherNetwork()
     

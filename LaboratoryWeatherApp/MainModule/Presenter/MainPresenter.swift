@@ -8,40 +8,41 @@
 import Foundation
 
 protocol MainViewProtocol: class {
-    func weatherRequest()
-    func showWeather(weatherTemp: String)
+    func success()
+    func failure()
 }
 
 protocol MainViewPresenterProtocol: class {
-    init(view: MainViewProtocol, weather: Weather)
-    func weatherRequest()
-    func showWeather()
+    init(view: MainViewProtocol, weatherNetwork: WeatherNetworkProtocol)
+    
+    func getWeather()
+    var weatherInstance: Weather? { get set }
 }
 
 class MainPresenter: MainViewPresenterProtocol {
-//    var weatherNetwork = WeatherNetwork.shared
-//    var weatherInstance: Weather?
-//    var weatherDaysArray: [Daily]?
-//    var weatherElements: [WeatherElement]?
     
-    func weatherRequest() {
-//        weatherNetwork.getWeather(latitude: Double, longitude: Double) { (weather) in
-//                guard let weather = weather else { return }
-//                self.weatherInstance = weather
-//                self.weatherDaysArray = weather.daily
-//                self.showWeather()
-    }
-    
-    let view: MainViewProtocol
-    let weather: Weather
-    
-    required init(view: MainViewProtocol, weather: Weather) {
+    weak var view: MainViewProtocol?
+    let weatherNetwork: WeatherNetworkProtocol!
+    var weatherInstance: Weather?
+    var citiesArray = cities
+
+    required init(view: MainViewProtocol, weatherNetwork: WeatherNetworkProtocol) {
         self.view = view
-        self.weather = weather
+        self.weatherNetwork = weatherNetwork
+        getWeather()
     }
     
-    func showWeather() {
-        let weatherTemp = "\(Int(self.weather.daily.first?.temp.day ?? 99))" + "°C"
-        self.view.showWeather(weatherTemp: weatherTemp)
+    func getWeather() {
+        guard let firstCitiesArrayElement = self.citiesArray.first else {
+            return
+        }
+        weatherNetwork.getWeather(latitude: firstCitiesArrayElement.lat,
+                                  longitude: firstCitiesArrayElement.lon) { [weak self] (weather) in
+            guard let weather = weather else { return }
+            DispatchQueue.main.async {
+                self?.weatherInstance = weather
+                self?.view?.success()
+            }
+        }
     }
 }

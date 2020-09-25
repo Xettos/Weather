@@ -7,12 +7,11 @@
 
 import Foundation
 
-enum GeographicalCoordinates {
-    case latitude(Double)
-    case longitude(Double)
+struct City {
+    let name: String
+    let lat: Double
+    let lon: Double
 }
 
-struct CitiesCoordinates {
-    let SaintPetersburg: GeographicalCoordinates
-    let Moscow: GeographicalCoordinates
-}
+let cities = [City(name: "Saint-Petersburg", lat: 59.937500, lon: 30.308611),
+              City(name: "Moscow", lat: 55.75124, lon: 37.618423)]

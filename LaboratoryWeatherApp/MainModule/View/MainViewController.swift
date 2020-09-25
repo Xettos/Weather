@@ -30,11 +30,11 @@ class MainViewController: UIViewController {
     }
     
     func weatherRequest() {
-        weatherNetwork.getWeather(latitude: spbLat, longitude: spbLon) { (weather) in
-            guard let weather = weather else { return }
-            self.weatherInstance = weather
-            self.weatherDaysArray = weather.daily
-            self.showWeather()
+            weatherNetwork.getWeather(latitude: spbLat, longitude: spbLon) { (weather) in
+                guard let weather = weather else { return }
+                self.weatherInstance = weather
+                self.weatherDaysArray = weather.daily
+                self.showWeather()
         }
     }
     
