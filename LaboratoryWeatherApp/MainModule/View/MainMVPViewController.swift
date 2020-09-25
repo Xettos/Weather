@@ -16,31 +16,45 @@ class MainMVPViewController: UIViewController {
     @IBOutlet weak var dailyWeatherTable: UITableView!
     
     var presenter: MainViewPresenterProtocol!
+    var weekdayss = WeekDayFormatter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        dailyWeatherTable.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        let cellNib = UINib(nibName: "WeatherCell", bundle: nil)
+        dailyWeatherTable.register(cellNib, forCellReuseIdentifier: "WeatherCell")
         setCurrentWeather()
     }
     
     func setCurrentWeather() {
         self.cityLable.text = cities[0].name
         self.weatherStateLable.text = presenter.weatherInstance?.daily.first?.weather.first?.main
-        self.temperatureLable.text = "\(presenter.weatherInstance?.daily.first?.temp.day ?? 99)"
+        self.temperatureLable.text = "\(Int(presenter.weatherInstance?.daily.first?.temp.day ?? 99))" + "°C"
+        //TODO: Сделать, чтобы отображалась текущая температура
     }
 }
 
 extension MainMVPViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return presenter.weatherInstance?.daily.count ?? 0
+        var numberOfDays = presenter.weatherInstance?.daily
+        numberOfDays?.remove(at: 0)
+        return numberOfDays?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        let weather = presenter.weatherInstance?.daily[indexPath.row].temp.day
+        var numberOfDays = presenter.weatherInstance?.daily
+        numberOfDays?.remove(at: 0)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "WeatherCell", for: indexPath) as! WeatherCell
+        let dayTemp = numberOfDays?[indexPath.row].temp.max
+        let nightTemp = numberOfDays?[indexPath.row].temp.night
+        let dayWeek = numberOfDays?[indexPath.row].dt ?? 0
         
-        cell.textLabel?.text = "\(Int(weather ?? 99))"
+        let daytext = formatter.unixToLocal(dateStr: "\(dayWeek)")
+        
+        cell.dayTemperature.text = "\(Int(dayTemp ?? 99))"
+        cell.nightTeperature.text = "\(Int(nightTemp ?? 99))"
+        cell.day.text = daytext
+
         return cell
     }
 }
@@ -52,5 +66,6 @@ extension MainMVPViewController: MainViewProtocol {
     }
     func failure() {
         print("failure")
+        //TODO: Сделать обработку ошибки, когда данные от сервера не получены
     }
 }
