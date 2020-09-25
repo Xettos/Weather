@@ -28,6 +28,7 @@
 		974E07E1251DD7C900FDFAB3 /* WeatherCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974E07DF251DD7C900FDFAB3 /* WeatherCell.swift */; };
 		974E07E2251DD7C900FDFAB3 /* WeatherCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 974E07E0251DD7C900FDFAB3 /* WeatherCell.xib */; };
 		974E07E7251DE43600FDFAB3 /* WeekDayFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974E07E6251DE43600FDFAB3 /* WeekDayFormatter.swift */; };
+		974E07EF251E194D00FDFAB3 /* IconDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974E07EE251E194C00FDFAB3 /* IconDownloader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +76,7 @@
 		974E07DF251DD7C900FDFAB3 /* WeatherCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCell.swift; sourceTree = "<group>"; };
 		974E07E0251DD7C900FDFAB3 /* WeatherCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WeatherCell.xib; sourceTree = "<group>"; };
 		974E07E6251DE43600FDFAB3 /* WeekDayFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDayFormatter.swift; sourceTree = "<group>"; };
+		974E07EE251E194C00FDFAB3 /* IconDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconDownloader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +190,7 @@
 			children = (
 				973D5D34251A19B000BF0A0F /* WeatherNetwork.swift */,
 				973D5D2E251A197A00BF0A0F /* WeatherManager.swift */,
+				974E07EE251E194C00FDFAB3 /* IconDownloader.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -374,6 +377,7 @@
 				973D5D43251B699500BF0A0F /* Cities.swift in Sources */,
 				973D5D65251CA14E00BF0A0F /* MainMVPViewController.swift in Sources */,
 				973D5CE0251A03D600BF0A0F /* MainViewController.swift in Sources */,
+				974E07EF251E194D00FDFAB3 /* IconDownloader.swift in Sources */,
 				973D5D35251A19B000BF0A0F /* WeatherNetwork.swift in Sources */,
 				974E07E1251DD7C900FDFAB3 /* WeatherCell.swift in Sources */,
 				973D5CDC251A03D600BF0A0F /* AppDelegate.swift in Sources */,

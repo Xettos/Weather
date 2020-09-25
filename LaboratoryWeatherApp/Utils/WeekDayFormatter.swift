@@ -9,7 +9,7 @@ import Foundation
 
 struct WeekDayFormatter {
 
-    func unixToLocal(dateStr: String) -> String {
+    func unixToWeekday(dateStr: String) -> String {
         let date = Date(timeIntervalSince1970: Double(dateStr)!)
         let dateFormatter = Calendar.current.component(.weekday, from: date)
         switch dateFormatter {

@@ -14,6 +14,7 @@
                 <outlet property="dailyWeatherTable" destination="CuJ-zp-Tiu" id="OIT-Ou-Agg"/>
                 <outlet property="temperatureLable" destination="cqM-m5-pUm" id="n2R-dO-2zF"/>
                 <outlet property="view" destination="W2o-eK-XzZ" id="Cua-CL-W5l"/>
+                <outlet property="weatherIcon" destination="P3u-Re-9dK" id="6ak-Ue-l92"/>
                 <outlet property="weatherStateLable" destination="oRK-V8-MnE" id="tV7-sR-zDP"/>
             </connections>
         </placeholder>
@@ -53,6 +54,10 @@
                         <outlet property="delegate" destination="-1" id="Aeu-Wq-LJc"/>
                     </connections>
                 </tableView>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P3u-Re-9dK">
+                    <rect key="frame" x="186" y="258" width="43" height="43"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="48y-5d-ybD"/>
             <color key="backgroundColor" red="0.68424052000000002" green="0.88967627289999995" blue="0.91373276709999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
