@@ -31,11 +31,6 @@ class MainMVPViewController: UIViewController {
         self.cityLable.text = cities[0].name
         self.weatherStateLable.text = presenter.weatherInstance?.daily.first?.weather.first?.main
         self.temperatureLable.text = "\(Int(presenter.weatherInstance?.daily.first?.temp.day ?? 99))" + "°C"
-        downloader.getWeatherIcon(icon: presenter.weatherInstance?.daily.first?.weather.first?.icon ?? "10d") { image in
-            DispatchQueue.main.async {
-                self.weatherIcon.image = image
-            }
-        }
         //TODO: Сделать, чтобы отображалась текущая температура
     }
 }
@@ -55,12 +50,14 @@ extension MainMVPViewController: UITableViewDataSource {
         let nightTemp = dailyForecast?[indexPath.row].temp.night
         let weekDay = dailyForecast?[indexPath.row].dt ?? 0
         let weekDaytext = formatter.unixToWeekday(dateStr: "\(weekDay)")
+        let weatherIcons = dailyForecast?[indexPath.row].weather.first?.icon
+        
         
         
         cell.dayTemperature.text = "\(Int(dayTemp ?? 99))"
         cell.nightTeperature.text = "\(Int(nightTemp ?? 99))"
         cell.day.text = weekDaytext
-        downloader.getWeatherIcon(icon: "10d") { image in
+        downloader.getWeatherIcon(icon: weatherIcons ?? "10d") { image in
             DispatchQueue.main.async {
                 cell.weatherStateIcon.image = image
             }
