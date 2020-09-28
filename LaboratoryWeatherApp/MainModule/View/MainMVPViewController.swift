@@ -14,7 +14,6 @@ class MainMVPViewController: UIViewController {
     @IBOutlet weak var weatherStateLable: UILabel!
     @IBOutlet weak var temperatureLable: UILabel!
     @IBOutlet weak var dailyWeatherTable: UITableView!
-    @IBOutlet weak var weatherIcon: UIImageView!
     
     var presenter: MainViewPresenterProtocol!
     var weekdayss = WeekDayFormatter()
@@ -43,26 +42,8 @@ extension MainMVPViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var dailyForecast = presenter.weatherInstance?.daily
-        dailyForecast?.remove(at: 0)
         let cell = tableView.dequeueReusableCell(withIdentifier: "WeatherCell", for: indexPath) as! WeatherCell
-        let dayTemp = dailyForecast?[indexPath.row].temp.max
-        let nightTemp = dailyForecast?[indexPath.row].temp.night
-        let weekDay = dailyForecast?[indexPath.row].dt ?? 0
-        let weekDaytext = formatter.unixToWeekday(dateStr: "\(weekDay)")
-        let weatherIcons = dailyForecast?[indexPath.row].weather.first?.icon
-        
-        
-        
-        cell.dayTemperature.text = "\(Int(dayTemp ?? 99))"
-        cell.nightTeperature.text = "\(Int(nightTemp ?? 99))"
-        cell.day.text = weekDaytext
-        downloader.getWeatherIcon(icon: weatherIcons ?? "10d") { image in
-            DispatchQueue.main.async {
-                cell.weatherStateIcon.image = image
-            }
-        }
-        
+        cell.renderCell(presenter: presenter, indexPath: indexPath)
         return cell
     }
 }

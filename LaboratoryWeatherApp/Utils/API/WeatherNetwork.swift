@@ -39,8 +39,6 @@ class WeatherNetwork: WeatherNetworkProtocol {
             }
             do {
                 let weather = try JSONDecoder().decode(Weather.self, from: data)
-//                let weatherJSON = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments)
-//                print(weatherJSON)
                 completion(weather)
             } catch let jsonError as NSError {
                 print("JSON decode failed: \(jsonError)")

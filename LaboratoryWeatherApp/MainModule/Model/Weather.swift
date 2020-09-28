@@ -22,7 +22,6 @@ struct Daily: Codable {
     let dewPoint, windSpeed: Double
     let windDeg: Int
     let weather: [WeatherElement]
-//    let clouds, pop: Int
     let rain, uvi: Double?
 
     enum CodingKeys: String, CodingKey {
