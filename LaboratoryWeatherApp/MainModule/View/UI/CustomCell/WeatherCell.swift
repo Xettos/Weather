@@ -11,10 +11,10 @@ class WeatherCell: UITableViewCell {
     
     private var presenter: MainViewPresenterProtocol!
 
-    @IBOutlet weak var dayTemperature: UILabel!
-    @IBOutlet weak var nightTeperature: UILabel!
-    @IBOutlet weak var weatherStateIcon: UIImageView!
-    @IBOutlet weak var day: UILabel!
+    @IBOutlet private weak var dayTemperature: UILabel!
+    @IBOutlet private weak var nightTeperature: UILabel!
+    @IBOutlet private weak var weatherStateIcon: UIImageView!
+    @IBOutlet private weak var day: UILabel!
     
     func renderCell(presenter: MainViewPresenterProtocol, indexPath: IndexPath) {
         var dailyForecast = presenter.weatherInstance?.daily

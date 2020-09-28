@@ -10,10 +10,10 @@ import UIKit
 class MainMVPViewController: UIViewController {
     
 
-    @IBOutlet weak var cityLable: UILabel!
-    @IBOutlet weak var weatherStateLable: UILabel!
-    @IBOutlet weak var temperatureLable: UILabel!
-    @IBOutlet weak var dailyWeatherTable: UITableView!
+    @IBOutlet private weak var cityLable: UILabel!
+    @IBOutlet private weak var weatherStateLable: UILabel!
+    @IBOutlet private weak var temperatureLable: UILabel!
+    @IBOutlet private weak var dailyWeatherTable: UITableView!
     
     var presenter: MainViewPresenterProtocol!
     var weekdayss = WeekDayFormatter()
