@@ -4,11 +4,9 @@
 //
 //  Created by Иван Гришечко on 24.09.2020.
 //
-
 import UIKit
 
 class MainMVPViewController: UIViewController {
-    
 
     @IBOutlet private weak var cityLable: UILabel!
     @IBOutlet private weak var weatherStateLable: UILabel!
@@ -20,7 +18,6 @@ class MainMVPViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        showSpinner()
         
         let cellNib = UINib(nibName: "WeatherCell", bundle: nil)
         dailyWeatherTable.register(cellNib, forCellReuseIdentifier: "WeatherCell")
@@ -50,10 +47,15 @@ extension MainMVPViewController: UITableViewDataSource {
 }
 
 extension MainMVPViewController: MainViewProtocol {
+    func showSpinnerView() {
+        showSpinner()
+    }
+    func removeSpinnerView() {
+        removeSpinner()
+    }
     func success() {
         dailyWeatherTable.reloadData()
         setCurrentWeather()
-        removeSpinner()
     }
     func failure() {
         print("failure")
