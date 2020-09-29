@@ -20,7 +20,7 @@ class MainMVPViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.showSpinner()
+        showSpinner()
         
         let cellNib = UINib(nibName: "WeatherCell", bundle: nil)
         dailyWeatherTable.register(cellNib, forCellReuseIdentifier: "WeatherCell")
@@ -53,7 +53,7 @@ extension MainMVPViewController: MainViewProtocol {
     func success() {
         dailyWeatherTable.reloadData()
         setCurrentWeather()
-        self.removeSpinner()
+        removeSpinner()
     }
     func failure() {
         print("failure")
