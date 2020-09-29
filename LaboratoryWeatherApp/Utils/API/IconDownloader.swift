@@ -30,9 +30,7 @@ class IconDownloader {
                 }
             }
         }
-
         downloadPicTask.resume()
-        
     }
 }
 

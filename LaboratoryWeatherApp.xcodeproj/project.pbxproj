@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		973452D225231EC400B53D4F /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973452D125231EC400B53D4F /* ActivityIndicator.swift */; };
 		973D5CDC251A03D600BF0A0F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973D5CDB251A03D600BF0A0F /* AppDelegate.swift */; };
 		973D5CDE251A03D600BF0A0F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973D5CDD251A03D600BF0A0F /* SceneDelegate.swift */; };
 		973D5CE3251A03D600BF0A0F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 973D5CE1251A03D600BF0A0F /* Main.storyboard */; };
@@ -47,6 +48,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		973452D125231EC400B53D4F /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		973D5CD8251A03D600BF0A0F /* LaboratoryWeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LaboratoryWeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		973D5CDB251A03D600BF0A0F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		973D5CDD251A03D600BF0A0F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 		973D5D33251A19A100BF0A0F /* API */ = {
 			isa = PBXGroup;
 			children = (
+				973452D125231EC400B53D4F /* ActivityIndicator.swift */,
 				973D5D34251A19B000BF0A0F /* WeatherNetwork.swift */,
 				974E07EE251E194C00FDFAB3 /* IconDownloader.swift */,
 			);
@@ -372,6 +375,7 @@
 				973D5D65251CA14E00BF0A0F /* MainMVPViewController.swift in Sources */,
 				974E07EF251E194D00FDFAB3 /* IconDownloader.swift in Sources */,
 				973D5D35251A19B000BF0A0F /* WeatherNetwork.swift in Sources */,
+				973452D225231EC400B53D4F /* ActivityIndicator.swift in Sources */,
 				974E07E1251DD7C900FDFAB3 /* WeatherCell.swift in Sources */,
 				973D5CDC251A03D600BF0A0F /* AppDelegate.swift in Sources */,
 				973D5D53251C8E5400BF0A0F /* WeatherDayCell.swift in Sources */,
