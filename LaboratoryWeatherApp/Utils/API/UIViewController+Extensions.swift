@@ -10,16 +10,14 @@ extension UIViewController {
     var spinnerTag: Int { return 999 }
     
     func showSpinner() {
-        
         guard view.viewWithTag(spinnerTag) == nil else {
             return
         }
         let spinner = UIActivityIndicatorView(style: .large)
         spinner.tag = spinnerTag
-        spinner.center = self.view.center
+        spinner.center = view.center
         spinner.startAnimating()
         view.addSubview(spinner)
-        self.view.addSubview(spinner)
     }
     
     func removeSpinner() {
