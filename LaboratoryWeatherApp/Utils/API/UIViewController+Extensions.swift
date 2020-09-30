@@ -21,10 +21,7 @@ extension UIViewController {
     }
     
     func removeSpinner() {
-        if let spinner  = view.viewWithTag(spinnerTag) {
+        guard let spinner = view.viewWithTag(spinnerTag) else { return }
             spinner.removeFromSuperview()
-    } else {
-        print("Error: this VC doesn't contains view with this tag")
-    }
     }
 }
