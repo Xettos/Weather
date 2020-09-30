@@ -4,11 +4,9 @@
 //
 //  Created by Иван Гришечко on 24.09.2020.
 //
-
 import UIKit
 
 class MainMVPViewController: UIViewController {
-    
 
     @IBOutlet private weak var cityLable: UILabel!
     @IBOutlet private weak var weatherStateLable: UILabel!
@@ -49,10 +47,19 @@ extension MainMVPViewController: UITableViewDataSource {
 }
 
 extension MainMVPViewController: MainViewProtocol {
+    func showSpinnerView() {
+        showSpinner()
+    }
+    
+    func removeSpinnerView() {
+        removeSpinner()
+    }
+    
     func success() {
         dailyWeatherTable.reloadData()
         setCurrentWeather()
     }
+    
     func failure() {
         print("failure")
         //TODO: Сделать обработку ошибки, когда данные от сервера не получены

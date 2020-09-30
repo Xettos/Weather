@@ -8,6 +8,8 @@
 import Foundation
 
 protocol MainViewProtocol: class {
+    func showSpinnerView()
+    func removeSpinnerView()
     func success()
     func failure()
 }
@@ -42,7 +44,11 @@ class MainPresenter: MainViewPresenterProtocol {
             DispatchQueue.main.async {
                 self?.weatherInstance = weather
                 self?.view?.success()
+                self?.view?.removeSpinnerView()
             }
+        }
+        DispatchQueue.main.async {
+            self.view?.showSpinnerView()
         }
     }
 }
