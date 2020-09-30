@@ -50,13 +50,16 @@ extension MainMVPViewController: MainViewProtocol {
     func showSpinnerView() {
         showSpinner()
     }
+    
     func removeSpinnerView() {
         removeSpinner()
     }
+    
     func success() {
         dailyWeatherTable.reloadData()
         setCurrentWeather()
     }
+    
     func failure() {
         print("failure")
         //TODO: Сделать обработку ошибки, когда данные от сервера не получены

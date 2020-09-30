@@ -10,18 +10,16 @@ extension UIViewController {
     var spinnerTag: Int { return 999 }
     
     func showSpinner() {
-        let aView = UIView(frame: self.view.bounds)
-        aView.backgroundColor = UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
         
-        guard (view.viewWithTag(spinnerTag) != nil)  else {
-            let spinner = UIActivityIndicatorView(style: .large)
-            spinner.tag = spinnerTag
-            spinner.center = aView.center
-            spinner.startAnimating()
-            aView.addSubview(spinner)
-            self.view.addSubview(spinner)
+        guard view.viewWithTag(spinnerTag) == nil else {
             return
         }
+        let spinner = UIActivityIndicatorView(style: .large)
+        spinner.tag = spinnerTag
+        spinner.center = self.view.center
+        spinner.startAnimating()
+        view.addSubview(spinner)
+        self.view.addSubview(spinner)
     }
     
     func removeSpinner() {
