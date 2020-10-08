@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17192" systemVersion="19H2" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="DailyCD" representedClassName="DailyCD" syncable="YES">
+        <attribute name="dayTemp" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="dewPoint" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="dt" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="humidity" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="nightTemp" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="pressure" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="rain" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="sunrise" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="sunset" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="uvi" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="weatherState" optional="YES" attributeType="String"/>
+        <attribute name="windDeg" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="windSpeed" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="feelsLike" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FeelsLikeCD" inverseName="daily" inverseEntity="FeelsLikeCD"/>
+        <relationship name="temp" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TempCD" inverseName="daily" inverseEntity="TempCD"/>
+        <relationship name="weather" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DailyCD" inverseName="weather" inverseEntity="DailyCD"/>
+        <relationship name="weatherElement" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WeatherElementCD" inverseName="daily" inverseEntity="WeatherElementCD"/>
+    </entity>
+    <entity name="FeelsLikeCD" representedClassName="FeelsLikeCD" syncable="YES">
+        <attribute name="day" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="eve" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="morn" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="night" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="daily" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DailyCD" inverseName="feelsLike" inverseEntity="DailyCD"/>
+    </entity>
+    <entity name="TempCD" representedClassName="TempCD" syncable="YES">
+        <attribute name="day" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="eve" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="max" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="min" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="morn" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="night" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="daily" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DailyCD" inverseName="temp" inverseEntity="DailyCD"/>
+    </entity>
+    <entity name="WeatherCD" representedClassName="WeatherCD" syncable="YES">
+        <attribute name="lat" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="lon" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="timezone" optional="YES" attributeType="String"/>
+        <attribute name="timezoneOffset" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="dailyForecast" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WeatherCD"/>
+    </entity>
+    <entity name="WeatherElementCD" representedClassName="WeatherElementCD" syncable="YES">
+        <attribute name="descript" optional="YES" attributeType="String"/>
+        <attribute name="icon" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="main" optional="YES" attributeType="String"/>
+        <relationship name="daily" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DailyCD" inverseName="weatherElement" inverseEntity="DailyCD"/>
+    </entity>
+    <elements>
+        <element name="DailyCD" positionX="-18" positionY="27" width="128" height="298"/>
+        <element name="FeelsLikeCD" positionX="0" positionY="117" width="128" height="118"/>
+        <element name="TempCD" positionX="-54" positionY="-9" width="128" height="148"/>
+        <element name="WeatherCD" positionX="-63" positionY="-18" width="128" height="118"/>
+        <element name="WeatherElementCD" positionX="-36" positionY="9" width="128" height="118"/>
+    </elements>
+</model>

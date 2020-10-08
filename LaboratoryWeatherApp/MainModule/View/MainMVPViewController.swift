@@ -14,7 +14,13 @@ class MainMVPViewController: UIViewController {
     @IBOutlet private weak var dailyWeatherTable: UITableView!
     
     var presenter: MainViewPresenterProtocol!
-    var weekdayss = WeekDayFormatter()
+    var weekdays = WeekDayFormatter()
+    
+    let refreshControl: UIRefreshControl = {
+        let myRefreshControl = UIRefreshControl()
+        myRefreshControl.addTarget(UITableView(), action: #selector(refresh(sender:)), for: .valueChanged)
+        return myRefreshControl
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,21 +28,33 @@ class MainMVPViewController: UIViewController {
         let cellNib = UINib(nibName: "WeatherCell", bundle: nil)
         dailyWeatherTable.register(cellNib, forCellReuseIdentifier: "WeatherCell")
         setCurrentWeather()
+        dailyWeatherTable.refreshControl = refreshControl
+    }
+    
+    @objc private func refresh(sender: UIRefreshControl) {
+        presenter.getWeather()
+        dailyWeatherTable.reloadData()
+        sender.endRefreshing()
     }
     
     func setCurrentWeather() {
-        self.cityLable.text = cities[0].name
-        self.weatherStateLable.text = presenter.weatherInstance?.daily.first?.weather.first?.main
-        self.temperatureLable.text = "\(Int(presenter.weatherInstance?.daily.first?.temp.day ?? 99))" + "°C"
-        //TODO: Сделать, чтобы отображалась текущая температура
+        NetworkReachabilityManager.isReachable { [weak self] _ in
+            self?.cityLable.text = cities[0].name
+            self?.weatherStateLable.text = self?.presenter.weatherInstance?.daily.first?.weather.first?.main
+            self?.temperatureLable.text = "\(Int(self?.presenter.weatherInstance?.daily.first?.temp.day ?? 99))" + "°C"
+        }
+        
+        NetworkReachabilityManager.isUnreachable { [weak self] _ in
+            self?.cityLable.text = cities[0].name
+            self?.weatherStateLable.text = self?.presenter.weatherDB?.first?.weatherState
+            self?.temperatureLable.text = "\(Int(self?.presenter.weatherDB?.first?.dayTemp ?? 99))" + "°C"
+        }
     }
 }
 
 extension MainMVPViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        var numberOfDays = presenter.weatherInstance?.daily
-        numberOfDays?.remove(at: 0)
-        return numberOfDays?.count ?? 0
+        return 7
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -60,8 +78,8 @@ extension MainMVPViewController: MainViewProtocol {
         setCurrentWeather()
     }
     
-    func failure() {
-        print("failure")
+    func failure(error: Error) {
+        print("failed to get weather from server")
         //TODO: Сделать обработку ошибки, когда данные от сервера не получены
     }
 }

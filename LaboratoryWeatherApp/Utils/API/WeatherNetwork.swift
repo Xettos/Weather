@@ -8,7 +8,7 @@ import UIKit
 import Foundation
 
 protocol WeatherNetworkProtocol {
-    func getWeather(latitude: Double, longitude: Double, completion: @escaping (_ weather: Weather?) -> Void)
+    func getWeather(latitude: Double, longitude: Double, completion: @escaping (Result<Weather?, Error>) -> Void)
 }
 
 class WeatherNetwork: WeatherNetworkProtocol {
@@ -21,7 +21,7 @@ class WeatherNetwork: WeatherNetworkProtocol {
     var dataTask: URLSessionDataTask?
     var urlConstructor = URLComponents()
     
-    func getWeather(latitude: Double, longitude: Double, completion: @escaping (_ weather: Weather?) -> Void) {
+    func getWeather(latitude: Double, longitude: Double, completion: @escaping (Result<Weather?, Error>) -> Void) {
         dataTask?.cancel()
         
         urlConstructor.scheme = "https"
@@ -34,12 +34,15 @@ class WeatherNetwork: WeatherNetworkProtocol {
         ]
         
         dataTask = defaultSession.dataTask(with: self.urlConstructor.url!, completionHandler: { (data, response, error) in
+            if let error = error {
+                completion(.failure(error))
+            }
             guard let data = data else {
-                return completion(nil)
+                return
             }
             do {
                 let weather = try JSONDecoder().decode(Weather.self, from: data)
-                completion(weather)
+                completion(.success(weather))
             } catch let jsonError as NSError {
                 print("JSON decode failed: \(jsonError)")
             }

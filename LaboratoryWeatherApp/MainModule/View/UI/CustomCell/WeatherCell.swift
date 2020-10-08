@@ -10,7 +10,7 @@ import UIKit
 class WeatherCell: UITableViewCell {
     
     private var presenter: MainViewPresenterProtocol!
-
+    
     @IBOutlet private weak var dayTemperature: UILabel!
     @IBOutlet private weak var nightTeperature: UILabel!
     @IBOutlet private weak var weatherStateIcon: UIImageView!
@@ -18,20 +18,41 @@ class WeatherCell: UITableViewCell {
     
     func renderCell(presenter: MainViewPresenterProtocol, indexPath: IndexPath) {
         var dailyForecast = presenter.weatherInstance?.daily
-        dailyForecast?.remove(at: 0)
+        var weatherDaysDb = presenter.weatherDB
         
-        let dayTemp = dailyForecast?[indexPath.row].temp.max
-        let nightTemp = dailyForecast?[indexPath.row].temp.night
+        dailyForecast?.removeFirst()
+        weatherDaysDb?.removeFirst()
+        
+        let dayTemperatureCD = weatherDaysDb?[indexPath.row].dayTemp
+        let nightTemperatureCD = weatherDaysDb?[indexPath.row].nightTemp
+        guard let weekDayCD = weatherDaysDb?[indexPath.row].dt else { return }
+        let weekDaytextCD = formatter.unixToWeekday(dateStr: "\(weekDayCD)")
+        
+        let dayTemperature = dailyForecast?[indexPath.row].temp.day
+        let nightTemperature = dailyForecast?[indexPath.row].temp.night
         let weekDay = dailyForecast?[indexPath.row].dt ?? 0
         let weekDaytext = formatter.unixToWeekday(dateStr: "\(weekDay)")
         let weatherIcons = dailyForecast?[indexPath.row].weather.first?.icon
         
-        self.dayTemperature.text = "\(Int(dayTemp ?? 99))"
-        self.nightTeperature.text = "\(Int(nightTemp ?? 99))"
-        self.day.text = weekDaytext
-        downloader.getWeatherIcon(icon: weatherIcons ?? "10d") { image in
-            DispatchQueue.main.async {
-                self.weatherStateIcon.image = image
+        NetworkReachabilityManager.isReachable { [weak self] _ in
+            self?.dayTemperature.text = "\(Int(dayTemperature ?? 99))"
+            self?.nightTeperature.text = "\(Int(nightTemperature ?? 99))"
+            self?.day.text = weekDaytext
+            downloader.getWeatherIcon(icon: weatherIcons ?? "10d") { image in
+                DispatchQueue.main.async {
+                    self?.weatherStateIcon.image = image
+                }
+            }
+        }
+        
+        NetworkReachabilityManager.isUnreachable { [weak self] _ in
+            self?.dayTemperature.text = "\(Int(dayTemperatureCD ?? 99))"
+            self?.nightTeperature.text = "\(Int(nightTemperatureCD ?? 99))"
+            self?.day.text = weekDaytextCD
+            downloader.getWeatherIcon(icon: weatherIcons ?? "10d") { image in
+                DispatchQueue.main.async {
+                    self?.weatherStateIcon.image = image
+                }
             }
         }
     }
