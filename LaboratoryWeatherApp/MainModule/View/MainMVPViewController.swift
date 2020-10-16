@@ -60,12 +60,12 @@ class MainMVPViewController: UIViewController {
 
 extension MainMVPViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (presenter.weatherInstance?.daily?.count ?? 0) - 1
+        return (presenter.weatherInstance?.daily!.count ?? 0) - 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "WeatherCell", for: indexPath) as! WeatherCell
-        cell.renderCell(presenter: presenter, indexPath: indexPath)
+        cell.renderCell(instance: presenter.weatherInstance ?? WeatherItem(), indexPath: indexPath)
         return cell
     }
 }

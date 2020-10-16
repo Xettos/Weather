@@ -16,16 +16,16 @@ class WeatherCell: UITableViewCell {
     @IBOutlet private weak var weatherStateIcon: UIImageView!
     @IBOutlet private weak var day: UILabel!
     
-    func renderCell(presenter: MainViewPresenterProtocol, indexPath: IndexPath) {
-        var dailyForecast = (presenter.weatherInstance?.daily?.allObjects as? [DailyWeather])?.sorted(by: { $0.date < $1.date})
-        var weatherDaysDb = presenter.weatherDB
+    func renderCell(instance: WeatherItem, indexPath: IndexPath) {
+        var dailyForecast = (instance.daily?.allObjects as? [DailyWeather])?.sorted(by: { $0.date < $1.date})
+        var weatherDaysDb = WeatherItemRepository.shared.fetchWeather()
         
         dailyForecast?.removeFirst()
-        weatherDaysDb?.removeFirst()
-        
-        let dayTemperatureCD = weatherDaysDb?[indexPath.row].temperature?.day
-        let nightTemperatureCD = weatherDaysDb?[indexPath.row].temperature?.night
-        guard let weekDayCD = weatherDaysDb?[indexPath.row].date else { return }
+        weatherDaysDb.removeFirst()
+
+        let dayTemperatureCD = weatherDaysDb[indexPath.row].temperature?.day
+        let nightTemperatureCD = weatherDaysDb[indexPath.row].temperature?.night
+        let weekDayCD = weatherDaysDb[indexPath.row].date 
         let weekDaytextCD = formatter.unixToWeekday(dateStr: "\(weekDayCD)")
         
         let dayTemperature = dailyForecast?[indexPath.row].temperature?.day

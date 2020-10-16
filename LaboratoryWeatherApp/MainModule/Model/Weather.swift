@@ -1,6 +1,6 @@
 import Foundation
 
-struct WeatherCodable: Codable {
+struct Weather: Codable {
     let lat, lon: Double
     let timezone: String
     let timezoneOffset: Int
