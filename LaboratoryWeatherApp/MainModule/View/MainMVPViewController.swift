@@ -38,23 +38,29 @@ class MainMVPViewController: UIViewController {
     }
     
     func setCurrentWeather() {
+        
         NetworkReachabilityManager.isReachable { [weak self] _ in
+            let array = (self?.presenter.weatherInstance?.daily?.allObjects as? [DailyWeather])?.sorted(by: {$0.date < $1.date})
+            let weatherElements = array?.first?.weatherElement?.allObjects as? [WeatherElements]
             self?.cityLable.text = cities[0].name
-            self?.weatherStateLable.text = self?.presenter.weatherInstance?.daily.first?.weather.first?.main
-            self?.temperatureLable.text = "\(Int(self?.presenter.weatherInstance?.daily.first?.temp.day ?? 99))" + "°C"
+            self?.weatherStateLable.text = weatherElements?.first?.weatherState
+            self?.temperatureLable.text = "\(Int(array?.first?.temperature?.day ?? 99))" + "°C"
         }
         
         NetworkReachabilityManager.isUnreachable { [weak self] _ in
-            self?.cityLable.text = cities[0].name
-            self?.weatherStateLable.text = self?.presenter.weatherDB?.first?.weatherState
-            self?.temperatureLable.text = "\(Int(self?.presenter.weatherDB?.first?.dayTemp ?? 99))" + "°C"
+                
+                let arrayDB = self?.presenter.weatherDB?.sorted(by: { $0.date < $1.date })
+                let weatherElements = arrayDB?.first?.weatherElement?.allObjects as? [WeatherElements]
+                self?.cityLable.text = cities[0].name
+                self?.weatherStateLable.text = weatherElements?.first?.weatherState
+                self?.temperatureLable.text = "\(Int(arrayDB?.first?.temperature?.day ?? 99))" + "°C"
         }
     }
 }
 
 extension MainMVPViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 7
+        return (presenter.weatherInstance?.daily?.count ?? 0) - 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -80,6 +86,5 @@ extension MainMVPViewController: MainViewProtocol {
     
     func failure(error: Error) {
         print("failed to get weather from server")
-        //TODO: Сделать обработку ошибки, когда данные от сервера не получены
     }
 }

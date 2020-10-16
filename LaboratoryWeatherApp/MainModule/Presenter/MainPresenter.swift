@@ -19,19 +19,18 @@ protocol MainViewPresenterProtocol: class {
     init(view: MainViewProtocol, weatherNetwork: WeatherNetworkProtocol)
     
     func getWeather()
-    func saveWeatherInCD()
-    var weatherInstance: Weather? { get set }
-    var weatherDB: [DailyCD]? { get set }
+    var weatherInstance: WeatherItem? { get set }
+    var weatherDB: [DailyWeather]? { get set }
 }
 
 class MainPresenter: MainViewPresenterProtocol {
     
     weak var view: MainViewProtocol?
     let weatherNetwork: WeatherNetworkProtocol!
-    var weatherInstance: Weather?
-    var weatherDB: [DailyCD]?
+    var weatherInstance: WeatherItem?
+    var weatherDB: [DailyWeather]?
     var citiesArray = cities
-    let repository = DailyCDRepository()
+    let repository = WeatherItemRepository()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
     required init(view: MainViewProtocol, weatherNetwork: WeatherNetworkProtocol) {

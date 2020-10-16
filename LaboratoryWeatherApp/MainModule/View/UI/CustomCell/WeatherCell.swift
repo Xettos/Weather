@@ -17,22 +17,22 @@ class WeatherCell: UITableViewCell {
     @IBOutlet private weak var day: UILabel!
     
     func renderCell(presenter: MainViewPresenterProtocol, indexPath: IndexPath) {
-        var dailyForecast = presenter.weatherInstance?.daily
+        var dailyForecast = (presenter.weatherInstance?.daily?.allObjects as? [DailyWeather])?.sorted(by: { $0.date < $1.date})
         var weatherDaysDb = presenter.weatherDB
         
         dailyForecast?.removeFirst()
         weatherDaysDb?.removeFirst()
         
-        let dayTemperatureCD = weatherDaysDb?[indexPath.row].dayTemp
-        let nightTemperatureCD = weatherDaysDb?[indexPath.row].nightTemp
-        guard let weekDayCD = weatherDaysDb?[indexPath.row].dt else { return }
+        let dayTemperatureCD = weatherDaysDb?[indexPath.row].temperature?.day
+        let nightTemperatureCD = weatherDaysDb?[indexPath.row].temperature?.night
+        guard let weekDayCD = weatherDaysDb?[indexPath.row].date else { return }
         let weekDaytextCD = formatter.unixToWeekday(dateStr: "\(weekDayCD)")
         
-        let dayTemperature = dailyForecast?[indexPath.row].temp.day
-        let nightTemperature = dailyForecast?[indexPath.row].temp.night
-        let weekDay = dailyForecast?[indexPath.row].dt ?? 0
-        let weekDaytext = formatter.unixToWeekday(dateStr: "\(weekDay)")
-        let weatherIcons = dailyForecast?[indexPath.row].weather.first?.icon
+        let dayTemperature = dailyForecast?[indexPath.row].temperature?.day
+        let nightTemperature = dailyForecast?[indexPath.row].temperature?.night
+        let weekDay = dailyForecast?[indexPath.row].date
+        let weekDaytext = formatter.unixToWeekday(dateStr: "\(weekDay ?? 1)")
+        let weatherIcons = (dailyForecast?[indexPath.row].weatherElement?.allObjects as? [WeatherElements])?.first?.iconId
         
         NetworkReachabilityManager.isReachable { [weak self] _ in
             self?.dayTemperature.text = "\(Int(dayTemperature ?? 99))"

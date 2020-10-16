@@ -8,15 +8,15 @@
 import UIKit
 import CoreData
 
-class DailyCDRepository {
+class WeatherItemRepository {
     
-    static let shared = DailyCDRepository()
+    static let shared = WeatherItemRepository()
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    func fetchWeather() -> [DailyCD] {
-        let request: NSFetchRequest<DailyCD> = DailyCD.fetchRequest()
-        let sort = NSSortDescriptor(key: "dt", ascending: true)
+    func fetchWeather() -> [DailyWeather] {
+        let request: NSFetchRequest<DailyWeather> = DailyWeather.fetchRequest()
+        let sort = NSSortDescriptor(key: "date", ascending: true)
         request.sortDescriptors = [sort]
         do {
             return try context.fetch(request)
@@ -25,14 +25,9 @@ class DailyCDRepository {
         }
     }
     
-    func saveWeather(weatherInstance: Weather?) {
-        weatherInstance?.daily.forEach({ (daily) in
-            let newDailyWeather = DailyCD(context: self.context)
-            newDailyWeather.dt = Double(daily.dt)
-            newDailyWeather.dayTemp = daily.temp.day
-            newDailyWeather.nightTemp = daily.temp.night
-            newDailyWeather.weatherState = weatherInstance?.daily.first?.weather.first?.main ?? ""
-        })
+    func saveWeather(weatherInstance: WeatherItem?) {
+        var weather = WeatherItem(context: self.context)
+        weather = weatherInstance ?? WeatherItem()
         do {
             try self.context.save()
         } catch {
@@ -41,7 +36,7 @@ class DailyCDRepository {
     }
     
     func delete() {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "DailyCD")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "DailyWeather")
         let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
         do {
             try context.execute(batchDeleteRequest)

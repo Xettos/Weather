@@ -8,7 +8,7 @@ import UIKit
 import Foundation
 
 protocol WeatherNetworkProtocol {
-    func getWeather(latitude: Double, longitude: Double, completion: @escaping (Result<Weather?, Error>) -> Void)
+    func getWeather(latitude: Double, longitude: Double, completion: @escaping (Result<WeatherItem?, Error>) -> Void)
 }
 
 class WeatherNetwork: WeatherNetworkProtocol {
@@ -20,8 +20,10 @@ class WeatherNetwork: WeatherNetworkProtocol {
     let defaultSession = URLSession(configuration: .default)
     var dataTask: URLSessionDataTask?
     var urlConstructor = URLComponents()
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let decoder = JSONDecoder()
     
-    func getWeather(latitude: Double, longitude: Double, completion: @escaping (Result<Weather?, Error>) -> Void) {
+    func getWeather(latitude: Double, longitude: Double, completion: @escaping (Result<WeatherItem?, Error>) -> Void) {
         dataTask?.cancel()
         
         urlConstructor.scheme = "https"
@@ -33,7 +35,7 @@ class WeatherNetwork: WeatherNetworkProtocol {
                                      URLQueryItem(name: "units", value: "metric")
         ]
         
-        dataTask = defaultSession.dataTask(with: self.urlConstructor.url!, completionHandler: { (data, response, error) in
+        dataTask = defaultSession.dataTask(with: self.urlConstructor.url!, completionHandler: { [weak self] (data, response, error) in
             if let error = error {
                 completion(.failure(error))
             }
@@ -41,7 +43,8 @@ class WeatherNetwork: WeatherNetworkProtocol {
                 return
             }
             do {
-                let weather = try JSONDecoder().decode(Weather.self, from: data)
+                self?.decoder.userInfo[CodingUserInfoKey.managedObjectContext] = self?.appDelegate.persistentContainer.viewContext
+                let weather = try self?.decoder.decode(WeatherItem.self, from: data)
                 completion(.success(weather))
             } catch let jsonError as NSError {
                 print("JSON decode failed: \(jsonError)")
