@@ -18,7 +18,7 @@ protocol MainViewProtocol: class {
 protocol MainViewPresenterProtocol: class {
     init(view: MainViewProtocol, weatherNetwork: WeatherNetworkProtocol)
     
-    func getWeather()
+    func gettingData()
     var weatherInstance: WeatherItem? { get set }
     var weatherDB: [DailyWeather]? { get set }
 }
@@ -46,6 +46,8 @@ class MainPresenter: MainViewPresenterProtocol {
         weatherNetwork.getWeather(latitude: firstCitiesArrayElement.lat,
                                   longitude: firstCitiesArrayElement.lon) { [weak self] result in
             guard let self = self else { return }
+            self.saveWeatherInCD()
+            self.weatherDB = self.repository.fetchWeather()
             DispatchQueue.main.async {
                 switch result {
                 case .success(let weather):
@@ -56,8 +58,6 @@ class MainPresenter: MainViewPresenterProtocol {
                     self.view?.failure(error: error)
                     self.view?.removeSpinnerView()
                 }
-                self.saveWeatherInCD()
-                self.weatherDB = self.repository.fetchWeather()
             }
         }
         DispatchQueue.main.async {

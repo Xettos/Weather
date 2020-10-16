@@ -32,7 +32,7 @@ class MainMVPViewController: UIViewController {
     }
     
     @objc private func refresh(sender: UIRefreshControl) {
-        presenter.getWeather()
+        presenter.gettingData()
         dailyWeatherTable.reloadData()
         sender.endRefreshing()
     }
@@ -48,7 +48,6 @@ class MainMVPViewController: UIViewController {
         }
         
         NetworkReachabilityManager.isUnreachable { [weak self] _ in
-                
                 let arrayDB = self?.presenter.weatherDB?.sorted(by: { $0.date < $1.date })
                 let weatherElements = arrayDB?.first?.weatherElement?.allObjects as? [WeatherElements]
                 self?.cityLable.text = cities[0].name
@@ -60,12 +59,12 @@ class MainMVPViewController: UIViewController {
 
 extension MainMVPViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (presenter.weatherInstance?.daily!.count ?? 0) - 1
+        return presenter.weatherDB?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "WeatherCell", for: indexPath) as! WeatherCell
-        cell.renderCell(instance: presenter.weatherInstance ?? WeatherItem(), indexPath: indexPath)
+        cell.renderCell(instance: presenter.weatherDB?[indexPath.row] ?? DailyWeather())
         return cell
     }
 }
