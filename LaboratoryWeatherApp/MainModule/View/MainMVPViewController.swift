@@ -14,34 +14,38 @@ class MainMVPViewController: UIViewController {
     @IBOutlet private weak var dailyWeatherTable: UITableView!
     
     var presenter: MainViewPresenterProtocol!
-    var weekdayss = WeekDayFormatter()
+    var weekdays = WeekDayFormatter()
+    
+    let refreshControl: UIRefreshControl = {
+        let myRefreshControl = UIRefreshControl()
+        myRefreshControl.addTarget(UITableView(), action: #selector(refresh(sender:)), for: .valueChanged)
+        return myRefreshControl
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let cellNib = UINib(nibName: "WeatherCell", bundle: nil)
         dailyWeatherTable.register(cellNib, forCellReuseIdentifier: "WeatherCell")
-        setCurrentWeather()
+        presenter.setCurrentWeather(cityLable: cityLable, weatherLable: weatherStateLable, temperatureLabel: temperatureLable)
+        dailyWeatherTable.refreshControl = refreshControl
     }
     
-    func setCurrentWeather() {
-        self.cityLable.text = cities[0].name
-        self.weatherStateLable.text = presenter.weatherInstance?.daily.first?.weather.first?.main
-        self.temperatureLable.text = "\(Int(presenter.weatherInstance?.daily.first?.temp.day ?? 99))" + "°C"
-        //TODO: Сделать, чтобы отображалась текущая температура
+    @objc private func refresh(sender: UIRefreshControl) {
+        presenter.gettingData()
+        dailyWeatherTable.reloadData()
+        sender.endRefreshing()
     }
 }
 
 extension MainMVPViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        var numberOfDays = presenter.weatherInstance?.daily
-        numberOfDays?.remove(at: 0)
-        return numberOfDays?.count ?? 0
+        return presenter.weatherDB?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "WeatherCell", for: indexPath) as! WeatherCell
-        cell.renderCell(presenter: presenter, indexPath: indexPath)
+        cell.renderCell(instance: presenter.weatherDB?[indexPath.row] ?? DailyWeather())
         return cell
     }
 }
@@ -57,11 +61,10 @@ extension MainMVPViewController: MainViewProtocol {
     
     func success() {
         dailyWeatherTable.reloadData()
-        setCurrentWeather()
+        presenter.setCurrentWeather(cityLable: cityLable, weatherLable: weatherStateLable, temperatureLabel: temperatureLable)
     }
     
-    func failure() {
-        print("failure")
-        //TODO: Сделать обработку ошибки, когда данные от сервера не получены
+    func failure(error: Error) {
+        print("failed to get weather from server")
     }
 }

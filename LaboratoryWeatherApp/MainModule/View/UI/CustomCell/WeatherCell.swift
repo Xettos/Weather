@@ -10,24 +10,22 @@ import UIKit
 class WeatherCell: UITableViewCell {
     
     private var presenter: MainViewPresenterProtocol!
-
+    
     @IBOutlet private weak var dayTemperature: UILabel!
     @IBOutlet private weak var nightTeperature: UILabel!
     @IBOutlet private weak var weatherStateIcon: UIImageView!
     @IBOutlet private weak var day: UILabel!
     
-    func renderCell(presenter: MainViewPresenterProtocol, indexPath: IndexPath) {
-        var dailyForecast = presenter.weatherInstance?.daily
-        dailyForecast?.remove(at: 0)
+    func renderCell(instance: DailyWeather) {
         
-        let dayTemp = dailyForecast?[indexPath.row].temp.max
-        let nightTemp = dailyForecast?[indexPath.row].temp.night
-        let weekDay = dailyForecast?[indexPath.row].dt ?? 0
-        let weekDaytext = formatter.unixToWeekday(dateStr: "\(weekDay)")
-        let weatherIcons = dailyForecast?[indexPath.row].weather.first?.icon
+        let dayTemperature = instance.temperature?.day
+        let nightTemperature = instance.temperature?.night
+        let weekDay = instance.date
+        let weekDaytext = formatter.unixToWeekday(dateStr: "\(weekDay ?? 1)")
+        let weatherIcons = (instance.weatherElement?.allObjects as? [WeatherElements])?.first?.iconId
         
-        self.dayTemperature.text = "\(Int(dayTemp ?? 99))"
-        self.nightTeperature.text = "\(Int(nightTemp ?? 99))"
+        self.dayTemperature.text = "\(Int(dayTemperature ?? 99))"
+        self.nightTeperature.text = "\(Int(nightTemperature ?? 99))"
         self.day.text = weekDaytext
         downloader.getWeatherIcon(icon: weatherIcons ?? "10d") { image in
             DispatchQueue.main.async {

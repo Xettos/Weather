@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17192" systemVersion="19H2" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="DailyWeather" representedClassName=".DailyWeather" syncable="YES" codeGenerationType="category">
+        <attribute name="date" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="temperature" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WeatherTemperature" inverseName="daily" inverseEntity="WeatherTemperature"/>
+        <relationship name="weather" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WeatherItem" inverseName="daily" inverseEntity="WeatherItem"/>
+        <relationship name="weatherElement" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WeatherElements" inverseName="daily" inverseEntity="WeatherElements"/>
+    </entity>
+    <entity name="WeatherElements" representedClassName=".WeatherElements" syncable="YES" codeGenerationType="category">
+        <attribute name="iconId" optional="YES" attributeType="String"/>
+        <attribute name="weatherState" optional="YES" attributeType="String"/>
+        <relationship name="daily" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DailyWeather" inverseName="weatherElement" inverseEntity="DailyWeather"/>
+    </entity>
+    <entity name="WeatherItem" representedClassName=".WeatherItem" syncable="YES" codeGenerationType="category">
+        <relationship name="daily" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DailyWeather" inverseName="weather" inverseEntity="DailyWeather"/>
+    </entity>
+    <entity name="WeatherTemperature" representedClassName=".WeatherTemperature" syncable="YES" codeGenerationType="category">
+        <attribute name="day" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="night" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="daily" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DailyWeather" inverseName="temperature" inverseEntity="DailyWeather"/>
+    </entity>
+    <elements>
+        <element name="DailyWeather" positionX="-210.734375" positionY="177.1328125" width="128" height="103"/>
+        <element name="WeatherElements" positionX="101.15234375" positionY="191.90234375" width="128" height="88"/>
+        <element name="WeatherItem" positionX="-185.0859375" positionY="37.78125" width="128" height="58"/>
+        <element name="WeatherTemperature" positionX="103.87109375" positionY="92.24609375" width="128" height="88"/>
+    </elements>
+</model>
