@@ -11,6 +11,7 @@
 		8EDE47B4A87AD17B25302FCD /* Pods_LaboratoryWeatherApp_LaboratoryWeatherAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 179B2FEBB8372EB230451203 /* Pods_LaboratoryWeatherApp_LaboratoryWeatherAppUITests.framework */; };
 		972AFD11252F011800199A98 /* NetworkReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972AFD10252F011800199A98 /* NetworkReachabilityManager.swift */; };
 		972AFD3425336CB800199A98 /* WeatherClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972AFD3325336CB800199A98 /* WeatherClasses.swift */; };
+		972E79DA253D8DB200F148DB /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972E79D9253D8DB200F148DB /* Repository.swift */; };
 		973452D225231EC400B53D4F /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973452D125231EC400B53D4F /* UIViewController+Extensions.swift */; };
 		973D5CDC251A03D600BF0A0F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973D5CDB251A03D600BF0A0F /* AppDelegate.swift */; };
 		973D5CDE251A03D600BF0A0F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973D5CDD251A03D600BF0A0F /* SceneDelegate.swift */; };
@@ -62,6 +63,7 @@
 		5086380B87F8517347BF17A3 /* Pods-LaboratoryWeatherAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LaboratoryWeatherAppTests.debug.xcconfig"; path = "Target Support Files/Pods-LaboratoryWeatherAppTests/Pods-LaboratoryWeatherAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		972AFD10252F011800199A98 /* NetworkReachabilityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkReachabilityManager.swift; sourceTree = "<group>"; };
 		972AFD3325336CB800199A98 /* WeatherClasses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherClasses.swift; sourceTree = "<group>"; };
+		972E79D9253D8DB200F148DB /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		973452D125231EC400B53D4F /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		973D5CD8251A03D600BF0A0F /* LaboratoryWeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LaboratoryWeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		973D5CDB251A03D600BF0A0F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 			children = (
 				97D19859252CA12B005F8AF3 /* WeatherItemRepository.swift */,
 				972AFD3325336CB800199A98 /* WeatherClasses.swift */,
+				972E79D9253D8DB200F148DB /* Repository.swift */,
 			);
 			path = "CD+Codable Model";
 			sourceTree = "<group>";
@@ -569,6 +572,7 @@
 				973D5CE6251A03D600BF0A0F /* LaboratoryWeatherApp.xcdatamodeld in Sources */,
 				972AFD3425336CB800199A98 /* WeatherClasses.swift in Sources */,
 				973D5D71251CA96F00BF0A0F /* ModuleBuilder.swift in Sources */,
+				972E79DA253D8DB200F148DB /* Repository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

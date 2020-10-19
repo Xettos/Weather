@@ -8,13 +8,14 @@
 import UIKit
 import CoreData
 
-class WeatherItemRepository {
+class WeatherItemRepository: Repository {
     
-    static let shared = WeatherItemRepository()
+    typealias Y = WeatherItem
+    typealias T = DailyWeather
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    func fetchWeather() -> [DailyWeather] {
+    func fetch() -> [DailyWeather] {
         let request: NSFetchRequest<DailyWeather> = DailyWeather.fetchRequest()
         let sort = NSSortDescriptor(key: "date", ascending: true)
         request.sortDescriptors = [sort]
@@ -25,9 +26,9 @@ class WeatherItemRepository {
         }
     }
     
-    func saveWeather(weatherInstance: WeatherItem?) {
+    func save(instance: WeatherItem?) {
         var weather = WeatherItem(context: self.context)
-        weather = weatherInstance ?? WeatherItem()
+        weather = instance ?? WeatherItem()
         do {
             try self.context.save()
         } catch {

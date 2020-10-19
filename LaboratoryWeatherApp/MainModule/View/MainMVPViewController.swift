@@ -27,7 +27,7 @@ class MainMVPViewController: UIViewController {
         
         let cellNib = UINib(nibName: "WeatherCell", bundle: nil)
         dailyWeatherTable.register(cellNib, forCellReuseIdentifier: "WeatherCell")
-        setCurrentWeather()
+        presenter.setCurrentWeather(cityLable: cityLable, weatherLable: weatherStateLable, temperatureLabel: temperatureLable)
         dailyWeatherTable.refreshControl = refreshControl
     }
     
@@ -35,25 +35,6 @@ class MainMVPViewController: UIViewController {
         presenter.gettingData()
         dailyWeatherTable.reloadData()
         sender.endRefreshing()
-    }
-    
-    func setCurrentWeather() {
-        
-        NetworkReachabilityManager.isReachable { [weak self] _ in
-            let array = (self?.presenter.weatherInstance?.daily?.allObjects as? [DailyWeather])?.sorted(by: {$0.date < $1.date})
-            let weatherElements = array?.first?.weatherElement?.allObjects as? [WeatherElements]
-            self?.cityLable.text = cities[0].name
-            self?.weatherStateLable.text = weatherElements?.first?.weatherState
-            self?.temperatureLable.text = "\(Int(array?.first?.temperature?.day ?? 99))" + "°C"
-        }
-        
-        NetworkReachabilityManager.isUnreachable { [weak self] _ in
-                let arrayDB = self?.presenter.weatherDB?.sorted(by: { $0.date < $1.date })
-                let weatherElements = arrayDB?.first?.weatherElement?.allObjects as? [WeatherElements]
-                self?.cityLable.text = cities[0].name
-                self?.weatherStateLable.text = weatherElements?.first?.weatherState
-                self?.temperatureLable.text = "\(Int(arrayDB?.first?.temperature?.day ?? 99))" + "°C"
-        }
     }
 }
 
@@ -80,7 +61,7 @@ extension MainMVPViewController: MainViewProtocol {
     
     func success() {
         dailyWeatherTable.reloadData()
-        setCurrentWeather()
+        presenter.setCurrentWeather(cityLable: cityLable, weatherLable: weatherStateLable, temperatureLabel: temperatureLable)
     }
     
     func failure(error: Error) {

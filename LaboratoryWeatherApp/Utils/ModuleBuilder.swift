@@ -16,7 +16,8 @@ class ModuleBuilder: Builder {
     static func createMainModule() -> UIViewController {
         let view = MainMVPViewController()
         let weatherNetwork = WeatherNetwork()
-        let presenter = MainPresenter(view: view, weatherNetwork: weatherNetwork)
+        let repository = WeatherItemRepository()
+        let presenter = MainPresenter(view: view, weatherNetwork: weatherNetwork, repository: repository)
         view.presenter = presenter
         return view
     }
