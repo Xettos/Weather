@@ -28,7 +28,7 @@ class WeatherItemRepository: Repository {
     
     func save(instance: WeatherItem?) {
         
-        var weather = WeatherItem(context: self.persistentContainer.newBackgroundContext())
+        var weather = WeatherItem(context: persistentContainer.newBackgroundContext())
         weather = instance ?? WeatherItem()
         do {
             try self.persistentContainer.viewContext.save()
