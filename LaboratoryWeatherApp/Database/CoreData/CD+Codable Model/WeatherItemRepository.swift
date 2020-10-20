@@ -27,13 +27,15 @@ class WeatherItemRepository: Repository {
     }
     
     func save(instance: WeatherItem?) {
-        
-        var weather = WeatherItem(context: persistentContainer.newBackgroundContext())
-        weather = instance ?? WeatherItem()
-        do {
-            try self.persistentContainer.viewContext.save()
-        } catch {
-            print("failed to save data to coredata")
+        let context = persistentContainer.newBackgroundContext()
+        context.perform {
+            var weather = WeatherItem(context: context)
+            weather = instance ?? WeatherItem()
+            do {
+                try context.save()
+            } catch {
+                print("failed to save to background context")
+            }
         }
     }
     
