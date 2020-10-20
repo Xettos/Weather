@@ -37,6 +37,11 @@ class WeatherItemRepository: Repository {
                 print("failed to save to background context")
             }
         }
+        do {
+            try persistentContainer.viewContext.save()
+        } catch {
+            print("failed to save to background context")
+        }
     }
     
     func delete() {
