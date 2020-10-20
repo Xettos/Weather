@@ -13,24 +13,25 @@ class WeatherItemRepository: Repository {
     typealias Y = WeatherItem
     typealias T = DailyWeather
     
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    private let persistentContainer = (UIApplication.shared.delegate as! AppDelegate).persistentContainer
     
     func fetch() -> [DailyWeather] {
         let request: NSFetchRequest<DailyWeather> = DailyWeather.fetchRequest()
         let sort = NSSortDescriptor(key: "date", ascending: true)
         request.sortDescriptors = [sort]
         do {
-            return try context.fetch(request)
+            return try persistentContainer.viewContext.fetch(request)
         } catch {
             return []
         }
     }
     
     func save(instance: WeatherItem?) {
-        var weather = WeatherItem(context: self.context)
+        
+        var weather = WeatherItem(context: self.persistentContainer.newBackgroundContext())
         weather = instance ?? WeatherItem()
         do {
-            try self.context.save()
+            try self.persistentContainer.viewContext.save()
         } catch {
             print("failed to save data to coredata")
         }
@@ -40,7 +41,7 @@ class WeatherItemRepository: Repository {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "DailyWeather")
         let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
         do {
-            try context.execute(batchDeleteRequest)
+            try persistentContainer.viewContext.execute(batchDeleteRequest)
         } catch {
             print("failed to delete data from coredata")
         }

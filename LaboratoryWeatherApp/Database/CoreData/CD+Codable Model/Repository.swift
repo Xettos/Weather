@@ -11,6 +11,7 @@ import CoreData
 protocol Repository {
     associatedtype T: NSManagedObject, Decodable
     associatedtype Y: NSManagedObject, Decodable
+    
     func fetch() -> [T]
     func save(instance: Y?)
     func delete()
