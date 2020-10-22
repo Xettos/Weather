@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class WeatherCell: UITableViewCell {
     
@@ -16,16 +17,14 @@ class WeatherCell: UITableViewCell {
     @IBOutlet private weak var weatherStateIcon: UIImageView!
     @IBOutlet private weak var day: UILabel!
     
-    func renderCell(instance: DailyWeather) {
+    func renderCell(fetchedResultsController: NSFetchedResultsController<DailyWeather>, indexPath: IndexPath) {
         
-        let dayTemperature = instance.temperature?.day
-        let nightTemperature = instance.temperature?.night
-        let weekDay = instance.date
-        let weekDaytext = formatter.unixToWeekday(dateStr: "\(weekDay ?? 1)")
-        let weatherIcons = (instance.weatherElement?.allObjects as? [WeatherElements])?.first?.iconId
+        let weather = fetchedResultsController.object(at: indexPath)
+        let weekDaytext = formatter.unixToWeekday(dateStr: "\(weather.date)")
+        let weatherIcons = (weather.weatherElement?.allObjects as? [WeatherElements])?.first?.iconId
         
-        self.dayTemperature.text = "\(Int(dayTemperature ?? 99))"
-        self.nightTeperature.text = "\(Int(nightTemperature ?? 99))"
+        self.dayTemperature.text = "\(Int(weather.temperature?.day ?? 99))"
+        self.nightTeperature.text = "\(Int(weather.temperature?.night ?? 99))"
         self.day.text = weekDaytext
         downloader.getWeatherIcon(icon: weatherIcons ?? "10d") { image in
             DispatchQueue.main.async {

@@ -43,7 +43,7 @@ class WeatherNetwork: WeatherNetworkProtocol {
                 return
             }
             do {
-                self?.decoder.userInfo[CodingUserInfoKey.managedObjectContext] = self?.appDelegate.persistentContainer.viewContext
+                self?.decoder.userInfo[CodingUserInfoKey.managedObjectContext] = self?.appDelegate.backgroundContext
                 let weather = try self?.decoder.decode(WeatherItem.self, from: data)
                 completion(.success(weather ?? WeatherItem()))
             } catch let jsonError as NSError {

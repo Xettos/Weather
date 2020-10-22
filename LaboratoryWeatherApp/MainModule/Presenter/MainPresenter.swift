@@ -7,6 +7,7 @@
 
 import UIKit
 import Foundation
+import CoreData
 
 protocol MainViewProtocol: class {
     func showSpinnerView()
@@ -18,14 +19,16 @@ protocol MainViewProtocol: class {
 protocol MainViewPresenterProtocol: class {
     init(view: MainViewProtocol, weatherNetwork: WeatherNetworkProtocol, repository: WeatherItemRepository)
     
-    func gettingData()
-    func setCurrentWeather(cityLable: UILabel, weatherLable: UILabel, temperatureLabel: UILabel)
     var weatherInstance: WeatherItem? { get set }
     var weatherDB: [DailyWeather]? { get set }
+    var fetchResultcontroller: NSFetchedResultsController<DailyWeather>? { get set }
+    
+    func gettingData()
+    func setCurrentWeather(cityLable: UILabel, weatherLable: UILabel, temperatureLabel: UILabel)
 }
 
 class MainPresenter: MainViewPresenterProtocol {
-    
+            
     weak var view: MainViewProtocol?
     let weatherNetwork: WeatherNetworkProtocol!
     var weatherInstance: WeatherItem?
@@ -33,6 +36,7 @@ class MainPresenter: MainViewPresenterProtocol {
     var citiesArray = cities
     let repository: WeatherItemRepository
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var fetchResultcontroller: NSFetchedResultsController<DailyWeather>?
 
     required init(view: MainViewProtocol, weatherNetwork: WeatherNetworkProtocol, repository: WeatherItemRepository) {
         self.view = view
@@ -51,11 +55,10 @@ class MainPresenter: MainViewPresenterProtocol {
         }
         
         NetworkReachabilityManager.isUnreachable { [weak self] _ in
-                let arrayDB = self?.weatherDB?.sorted(by: { $0.date < $1.date })
-                let weatherElements = arrayDB?.first?.weatherElement?.allObjects as? [WeatherElements]
-                cityLable.text = cities[0].name
-                weatherLable.text = weatherElements?.first?.weatherState
-                temperatureLabel.text = "\(Int(arrayDB?.first?.temperature?.day ?? 99))" + "°C"
+            let fetchedObjects = self?.fetchResultcontroller?.fetchedObjects
+            cityLable.text = cities[0].name
+            weatherLable.text = (fetchedObjects?.first?.weatherElement?.allObjects as? [WeatherElements])?.first?.weatherState
+            temperatureLabel.text = "\(Int(fetchedObjects?.first?.temperature?.day ?? 99))" + "°C"
         }
     }
     
@@ -66,12 +69,11 @@ class MainPresenter: MainViewPresenterProtocol {
         weatherNetwork.getWeather(latitude: firstCitiesArrayElement.lat,
                                   longitude: firstCitiesArrayElement.lon) { [weak self] result in
             guard let self = self else { return }
-            self.saveWeatherInCD()
-            self.weatherDB = self.repository.fetch()
             DispatchQueue.main.async {
                 switch result {
                 case .success(let weather):
                     self.weatherInstance = weather
+                    self.saveWeatherInCD()
                     self.view?.success()
                     self.view?.removeSpinnerView()
                 case .failure(let error):
@@ -86,26 +88,31 @@ class MainPresenter: MainViewPresenterProtocol {
     }
     
     func saveWeatherInCD() {
-        if weatherDB?.count == 0 {
-            repository.save(instance: weatherInstance)
+        if fetchResultcontroller?.fetchedObjects?.count == 0 {
+            repository.save()
         } else {
             //update
             repository.delete()
-            repository.save(instance: weatherInstance)
+            repository.save()
         }
     }
     
     func gettingData() {
         NetworkReachabilityManager.isReachable { [weak self] _ in
             self?.getWeather()
+            self?.getFetchController()
         }
         
         NetworkReachabilityManager.isUnreachable { [weak self] _ in
-            self?.weatherDB = self?.repository.fetch()
+            self?.getFetchController()
             DispatchQueue.main.async {
                 self?.view?.success()
                 self?.view?.removeSpinnerView()
             }
         }
+    }
+    
+    func getFetchController() {
+        self.fetchResultcontroller = repository.fetchResultcontroller
     }
 }

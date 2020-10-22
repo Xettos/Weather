@@ -50,6 +50,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         })
         return container
     }()
+    
+    lazy var backgroundContext = persistentContainer.newBackgroundContext()
 
     // MARK: - Core Data Saving support
 
