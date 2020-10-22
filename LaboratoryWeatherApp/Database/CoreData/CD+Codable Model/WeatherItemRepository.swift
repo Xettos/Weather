@@ -56,7 +56,8 @@ class WeatherItemRepository: Repository {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "DailyWeather")
         let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
         do {
-            try appDelegate.persistentContainer.viewContext.execute(batchDeleteRequest)
+            try appDelegate.backgroundContext.execute(batchDeleteRequest)
+            appDelegate.backgroundContext.reset()
         } catch {
             print("failed to delete data from coredata")
         }

@@ -73,13 +73,13 @@ class MainPresenter: MainViewPresenterProtocol {
                 switch result {
                 case .success(let weather):
                     self.weatherInstance = weather
-                    self.saveWeatherInCD()
                     self.view?.success()
                     self.view?.removeSpinnerView()
                 case .failure(let error):
                     self.view?.failure(error: error)
                     self.view?.removeSpinnerView()
                 }
+                self.saveWeatherInCD()
             }
         }
         DispatchQueue.main.async {
