@@ -5,9 +5,10 @@
 //  Created by Иван Гришечко on 24.09.2020.
 //
 import UIKit
+import CoreData
 
 class MainMVPViewController: UIViewController {
-
+    
     @IBOutlet private weak var cityLable: UILabel!
     @IBOutlet private weak var weatherStateLable: UILabel!
     @IBOutlet private weak var temperatureLable: UILabel!
@@ -25,9 +26,12 @@ class MainMVPViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        presenter.fetchResultcontroller?.delegate = self
         let cellNib = UINib(nibName: "WeatherCell", bundle: nil)
         dailyWeatherTable.register(cellNib, forCellReuseIdentifier: "WeatherCell")
-        presenter.setCurrentWeather(cityLable: cityLable, weatherLable: weatherStateLable, temperatureLabel: temperatureLable)
+        presenter.setCurrentWeather(cityLable: cityLable,
+                                    weatherLable: weatherStateLable,
+                                    temperatureLabel: temperatureLable)
         dailyWeatherTable.refreshControl = refreshControl
     }
     
@@ -40,12 +44,12 @@ class MainMVPViewController: UIViewController {
 
 extension MainMVPViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return presenter.weatherDB?.count ?? 0
+        return presenter.fetchResultcontroller?.sections?[section].numberOfObjects ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "WeatherCell", for: indexPath) as! WeatherCell
-        cell.renderCell(instance: presenter.weatherDB?[indexPath.row] ?? DailyWeather())
+        cell.renderCell(fetchedResultsController: self.presenter.fetchResultcontroller ?? NSFetchedResultsController(), indexPath: indexPath)
         return cell
     }
 }
@@ -66,5 +70,12 @@ extension MainMVPViewController: MainViewProtocol {
     
     func failure(error: Error) {
         print("failed to get weather from server")
+    }
+}
+
+extension MainMVPViewController: NSFetchedResultsControllerDelegate {
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        dailyWeatherTable.reloadData()
     }
 }
