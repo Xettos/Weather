@@ -8,7 +8,7 @@ import UIKit
 import CoreData
 
 class MainMVPViewController: UIViewController {
-
+    
     @IBOutlet private weak var cityLable: UILabel!
     @IBOutlet private weak var weatherStateLable: UILabel!
     @IBOutlet private weak var temperatureLable: UILabel!

@@ -28,7 +28,7 @@ protocol MainViewPresenterProtocol: class {
 }
 
 class MainPresenter: MainViewPresenterProtocol {
-            
+    
     weak var view: MainViewProtocol?
     let weatherNetwork: WeatherNetworkProtocol!
     var weatherInstance: WeatherItem?
@@ -37,7 +37,7 @@ class MainPresenter: MainViewPresenterProtocol {
     let repository: WeatherItemRepository
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var fetchResultcontroller: NSFetchedResultsController<DailyWeather>?
-
+    
     required init(view: MainViewProtocol, weatherNetwork: WeatherNetworkProtocol, repository: WeatherItemRepository) {
         self.view = view
         self.weatherNetwork = weatherNetwork

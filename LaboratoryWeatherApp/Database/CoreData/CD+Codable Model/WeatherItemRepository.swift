@@ -13,7 +13,7 @@ class WeatherItemRepository: Repository {
     
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
-        lazy var fetchResultcontroller: NSFetchedResultsController<DailyWeather> = {
+    lazy var fetchResultcontroller: NSFetchedResultsController<DailyWeather> = {
         let fetchRequest = NSFetchRequest<DailyWeather>(entityName: "DailyWeather")
         let sort = NSSortDescriptor(key: "date", ascending: true)
         fetchRequest.sortDescriptors = [sort]
