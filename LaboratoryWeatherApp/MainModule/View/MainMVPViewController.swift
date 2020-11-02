@@ -69,7 +69,7 @@ extension MainMVPViewController: MainViewProtocol {
     }
     
     func failure(error: Error) {
-        print("failed to get weather from server")
+        print(error.localizedDescription)
     }
 }
 
