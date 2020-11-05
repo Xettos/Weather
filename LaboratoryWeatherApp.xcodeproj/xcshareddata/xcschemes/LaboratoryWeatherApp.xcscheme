@@ -58,6 +58,11 @@
                BlueprintName = "LaboratoryWeatherAppUnitTest"
                ReferencedContainer = "container:LaboratoryWeatherApp.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "UtilsTests">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>

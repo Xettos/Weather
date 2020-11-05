@@ -24,12 +24,14 @@
 		973D5D65251CA14E00BF0A0F /* MainMVPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973D5D63251CA14D00BF0A0F /* MainMVPViewController.swift */; };
 		973D5D66251CA14E00BF0A0F /* MainMVPViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 973D5D64251CA14D00BF0A0F /* MainMVPViewController.xib */; };
 		973D5D71251CA96F00BF0A0F /* ModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973D5D70251CA96F00BF0A0F /* ModuleBuilder.swift */; };
+		97404C6B255142FE00597284 /* PresenterUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97404C6A255142FE00597284 /* PresenterUnitTests.swift */; };
 		974E07E1251DD7C900FDFAB3 /* WeatherCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974E07DF251DD7C900FDFAB3 /* WeatherCell.swift */; };
 		974E07E2251DD7C900FDFAB3 /* WeatherCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 974E07E0251DD7C900FDFAB3 /* WeatherCell.xib */; };
 		974E07E7251DE43600FDFAB3 /* WeekDayFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974E07E6251DE43600FDFAB3 /* WeekDayFormatter.swift */; };
 		974E07EF251E194D00FDFAB3 /* IconDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974E07EE251E194C00FDFAB3 /* IconDownloader.swift */; };
 		9751439C25338FE800C67ADD /* CodingUserInfoKey+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9751439B25338FE800C67ADD /* CodingUserInfoKey+Extension.swift */; };
 		97C1A2A82547191800CB64BB /* LaboratoryWeatherAppUnitTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C1A2A72547191800CB64BB /* LaboratoryWeatherAppUnitTest.swift */; };
+		97C1A2B92550835300CB64BB /* ViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C1A2B82550835300CB64BB /* ViewControllerTests.swift */; };
 		97D1985A252CA12B005F8AF3 /* WeatherItemRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D19859252CA12B005F8AF3 /* WeatherItemRepository.swift */; };
 		A6FFCA05BE816680738F0B37 /* Pods_LaboratoryWeatherApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02A12BAF6ACBC19B89DC1910 /* Pods_LaboratoryWeatherApp.framework */; };
 /* End PBXBuildFile section */
@@ -74,6 +76,9 @@
 		973D5D63251CA14D00BF0A0F /* MainMVPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMVPViewController.swift; sourceTree = "<group>"; };
 		973D5D64251CA14D00BF0A0F /* MainMVPViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainMVPViewController.xib; sourceTree = "<group>"; };
 		973D5D70251CA96F00BF0A0F /* ModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleBuilder.swift; sourceTree = "<group>"; };
+		97404C5B255142CC00597284 /* LaboratoryWeatherAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaboratoryWeatherAppTests.swift; sourceTree = "<group>"; };
+		97404C5D255142CC00597284 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		97404C6A255142FE00597284 /* PresenterUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenterUnitTests.swift; sourceTree = "<group>"; };
 		974E07DF251DD7C900FDFAB3 /* WeatherCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCell.swift; sourceTree = "<group>"; };
 		974E07E0251DD7C900FDFAB3 /* WeatherCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WeatherCell.xib; sourceTree = "<group>"; };
 		974E07E6251DE43600FDFAB3 /* WeekDayFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDayFormatter.swift; sourceTree = "<group>"; };
@@ -82,6 +87,7 @@
 		97C1A2A52547191800CB64BB /* LaboratoryWeatherAppUnitTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LaboratoryWeatherAppUnitTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		97C1A2A72547191800CB64BB /* LaboratoryWeatherAppUnitTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaboratoryWeatherAppUnitTest.swift; sourceTree = "<group>"; };
 		97C1A2A92547191800CB64BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		97C1A2B82550835300CB64BB /* ViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerTests.swift; sourceTree = "<group>"; };
 		97D19859252CA12B005F8AF3 /* WeatherItemRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherItemRepository.swift; sourceTree = "<group>"; };
 		99119821501E65A010D2B3B2 /* Pods-LaboratoryWeatherApp-LaboratoryWeatherAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LaboratoryWeatherApp-LaboratoryWeatherAppUITests.debug.xcconfig"; path = "Target Support Files/Pods-LaboratoryWeatherApp-LaboratoryWeatherAppUITests/Pods-LaboratoryWeatherApp-LaboratoryWeatherAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		AB85FB5D15AFD4D8696A6D2B /* Pods-LaboratoryWeatherAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LaboratoryWeatherAppTests.release.xcconfig"; path = "Target Support Files/Pods-LaboratoryWeatherAppTests/Pods-LaboratoryWeatherAppTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -150,6 +156,7 @@
 				973D5CDA251A03D600BF0A0F /* LaboratoryWeatherApp */,
 				973D5D1A251A084B00BF0A0F /* Tests */,
 				97C1A2A62547191800CB64BB /* LaboratoryWeatherAppUnitTest */,
+				97404C5A255142CC00597284 /* LaboratoryWeatherAppTests */,
 				973D5CD9251A03D600BF0A0F /* Products */,
 				F8349F7A520F0F33FC885A9F /* Pods */,
 				39A5D6BDD0A183E98A7CB289 /* Frameworks */,
@@ -277,6 +284,15 @@
 			path = UI;
 			sourceTree = "<group>";
 		};
+		97404C5A255142CC00597284 /* LaboratoryWeatherAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				97404C5B255142CC00597284 /* LaboratoryWeatherAppTests.swift */,
+				97404C5D255142CC00597284 /* Info.plist */,
+			);
+			path = LaboratoryWeatherAppTests;
+			sourceTree = "<group>";
+		};
 		974E07DE251DD7A600FDFAB3 /* CustomCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -289,6 +305,8 @@
 		97C1A2A62547191800CB64BB /* LaboratoryWeatherAppUnitTest */ = {
 			isa = PBXGroup;
 			children = (
+				97404C6A255142FE00597284 /* PresenterUnitTests.swift */,
+				97C1A2B82550835300CB64BB /* ViewControllerTests.swift */,
 				97C1A2A72547191800CB64BB /* LaboratoryWeatherAppUnitTest.swift */,
 				97C1A2A92547191800CB64BB /* Info.plist */,
 			);
@@ -479,7 +497,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				97C1A2B92550835300CB64BB /* ViewControllerTests.swift in Sources */,
 				97C1A2A82547191800CB64BB /* LaboratoryWeatherAppUnitTest.swift in Sources */,
+				97404C6B255142FE00597284 /* PresenterUnitTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
