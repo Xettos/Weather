@@ -8,43 +8,9 @@
 import XCTest
 @testable import LaboratoryWeatherApp
 
-class MockWeatherNetworkProtocol: WeatherNetworkProtocol {
-    func getWeather(latitude: Double, longitude: Double, completion: @escaping (Result<WeatherItem, Error>) -> Void) {
-    }
-}
-
-class MockMainViewProtocol: MainViewProtocol {
-    var spinnerIsShown = 0
-    var spinnerIsRemoved = 0
-    var succeed = false
-    var failured = false
-    
-    func showSpinnerView() {
-        spinnerIsShown += 1
-    }
-    
-    func removeSpinnerView() {
-        spinnerIsRemoved += 1
-    }
-    
-    func success() {
-        succeed = true
-    }
-    
-    func failure(error: Error) {
-        failured = true
-    }
-}
-
-class MockPresenter: MainPresenter {
-    var weatherIsSet = false
-    override func setCurrentWeather(cityLable: UILabel, weatherLable: UILabel, temperatureLabel: UILabel) {
-        weatherIsSet = true
-    }
-}
 
 class ViewControllerTests: XCTestCase {
-    var presenter: MockPresenter!
+    var presenter: MockMainPresenter!
     var weatherNetwork: MockWeatherNetworkProtocol!
     var viewController = MainMVPViewController()
     var mockView: MockMainViewProtocol!
@@ -56,7 +22,7 @@ class ViewControllerTests: XCTestCase {
         mockView = MockMainViewProtocol()
         weatherNetwork = MockWeatherNetworkProtocol()
         mockRepository = WeatherItemRepository()
-        presenter = MockPresenter(view: mockView, weatherNetwork: weatherNetwork, repository: mockRepository)
+        presenter = MockMainPresenter(view: mockView, weatherNetwork: weatherNetwork, repository: mockRepository)
     }
     
     override func tearDownWithError() throws {
@@ -74,5 +40,27 @@ class ViewControllerTests: XCTestCase {
         presenter.setCurrentWeather(cityLable: lable1, weatherLable: lable2, temperatureLabel: lable3)
         
         XCTAssertTrue(presenter.weatherIsSet, "Weather is set")
+    }
+    
+    func testSpinner() throws {
+        presenter.view?.showSpinnerView()
+        presenter.view?.removeSpinnerView()
+        
+        XCTAssertTrue(self.mockView.spinnerIsShown)
+        XCTAssertTrue(self.mockView.spinnerIsRemoved)
+    }
+    
+    func testSuccess() {
+        presenter.view?.success()
+        
+        XCTAssertTrue(self.mockView.succeed)
+    }
+    
+    func testFailure() {
+        struct ErrorForTest: Error {
+        }
+        
+        presenter.view?.failure(error: ErrorForTest() as Error)
+        XCTAssertTrue(self.mockView.failured)
     }
 }

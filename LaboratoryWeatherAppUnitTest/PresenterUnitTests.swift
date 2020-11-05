@@ -8,49 +8,20 @@
 import XCTest
 @testable import LaboratoryWeatherApp
 
-class MockViewProtocol1: MainViewProtocol {
-    var spinnerIsShown = false
-    var spinnerIsRemoved = false
-    var succeed = false
-    var failured = false
-    
-    func showSpinnerView() {
-        spinnerIsShown = true
-    }
-    
-    func removeSpinnerView() {
-        spinnerIsRemoved = true
-    }
-    
-    func success() {
-        succeed = true
-    }
-    
-    func failure(error: Error) {
-        failured = true
-    }
-}
-
-class MockWeatherNetwork: WeatherNetworkProtocol {
-    var callCompleted = false
-    
-    func getWeather(latitude: Double, longitude: Double, completion: @escaping (Result<WeatherItem, Error>) -> Void) {
-        callCompleted = true
-    }
-}
-
 class PresenterUnitTests: XCTestCase {
 
     var presenter: MainPresenter!
-    var view: MockViewProtocol1!
+    var view: MockMainViewProtocol!
     var mockWeatherNetwork: WeatherNetwork!
-    var repository: WeatherItemRepository!
+    var repository: MockWeatherItemRepository!
+    var reachabilityManager: MockNetworkReachabilityManager!
 
     override func setUpWithError() throws {
-        view = MockViewProtocol1()
+        view = MockMainViewProtocol()
         mockWeatherNetwork = WeatherNetwork()
-        repository = WeatherItemRepository()
+        repository = MockWeatherItemRepository()
         presenter = MainPresenter(view: view, weatherNetwork: mockWeatherNetwork, repository: repository)
+        reachabilityManager = MockNetworkReachabilityManager()
     }
 
     override func tearDownWithError() throws {
@@ -59,27 +30,32 @@ class PresenterUnitTests: XCTestCase {
         mockWeatherNetwork = nil
         repository = nil
     }
-
-    func testSpinner() throws {
-        presenter.view?.showSpinnerView()
-        presenter.view?.removeSpinnerView()
+    
+    func testSavingToDB() {
+        presenter.saveWeatherInCD()
         
-        XCTAssertTrue(self.view.spinnerIsShown)
-        XCTAssertTrue(self.view.spinnerIsRemoved)
+        XCTAssertTrue(repository.savingCompleted)
     }
     
-    func testSuccess() {
-        presenter.view?.success()
+    func testUpdateDB() {
+        presenter.saveWeatherInCD()
         
-        XCTAssertTrue(self.view.succeed)
+        XCTAssertTrue(repository.savingCompleted)
     }
     
-    func testFailure() {
-        struct ErrorForTest: Error {
+    func testGetUnreachableData() {
+        let promise = expectation(description: "unreachable async task ")
+        
+        MockNetworkReachabilityManager.isReachable { [weak self]_ in
+            self?.presenter.repository.fetch()
+            promise.fulfill()
         }
         
-        presenter.view?.failure(error: ErrorForTest() as Error)
-    
-        XCTAssertTrue(self.view.failured)
+        MockNetworkReachabilityManager.isUnreachable { [weak self]_ in
+            self?.presenter.repository.fetch()
+            promise.fulfill()
+        }
+        waitForExpectations(timeout: 2)
+        XCTAssertTrue(repository.fetchingCompleted)
     }
 }

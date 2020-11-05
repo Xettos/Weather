@@ -32,7 +32,13 @@
 		9751439C25338FE800C67ADD /* CodingUserInfoKey+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9751439B25338FE800C67ADD /* CodingUserInfoKey+Extension.swift */; };
 		97C1A2A82547191800CB64BB /* LaboratoryWeatherAppUnitTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C1A2A72547191800CB64BB /* LaboratoryWeatherAppUnitTest.swift */; };
 		97C1A2B92550835300CB64BB /* ViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C1A2B82550835300CB64BB /* ViewControllerTests.swift */; };
+		97C5D78125542C09002704B4 /* MockWeatherCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C5D78025542C09002704B4 /* MockWeatherCell.swift */; };
+		97C5D78525542DAE002704B4 /* MockReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C5D78425542DAE002704B4 /* MockReachability.swift */; };
 		97D1985A252CA12B005F8AF3 /* WeatherItemRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D19859252CA12B005F8AF3 /* WeatherItemRepository.swift */; };
+		97D4E4C52554224E00944D34 /* MockMainViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D4E4C42554224E00944D34 /* MockMainViewProtocol.swift */; };
+		97D4E4D02554243900944D34 /* MockWeatherNetworkProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D4E4CF2554243900944D34 /* MockWeatherNetworkProtocol.swift */; };
+		97D4E4D6255424D400944D34 /* MockMainPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D4E4D5255424D400944D34 /* MockMainPresenter.swift */; };
+		97D4E4DC255425B000944D34 /* MockWeatherItemRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D4E4DB255425B000944D34 /* MockWeatherItemRepository.swift */; };
 		A6FFCA05BE816680738F0B37 /* Pods_LaboratoryWeatherApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02A12BAF6ACBC19B89DC1910 /* Pods_LaboratoryWeatherApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -88,7 +94,13 @@
 		97C1A2A72547191800CB64BB /* LaboratoryWeatherAppUnitTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaboratoryWeatherAppUnitTest.swift; sourceTree = "<group>"; };
 		97C1A2A92547191800CB64BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		97C1A2B82550835300CB64BB /* ViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerTests.swift; sourceTree = "<group>"; };
+		97C5D78025542C09002704B4 /* MockWeatherCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWeatherCell.swift; sourceTree = "<group>"; };
+		97C5D78425542DAE002704B4 /* MockReachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockReachability.swift; sourceTree = "<group>"; };
 		97D19859252CA12B005F8AF3 /* WeatherItemRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherItemRepository.swift; sourceTree = "<group>"; };
+		97D4E4C42554224E00944D34 /* MockMainViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMainViewProtocol.swift; sourceTree = "<group>"; };
+		97D4E4CF2554243900944D34 /* MockWeatherNetworkProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWeatherNetworkProtocol.swift; sourceTree = "<group>"; };
+		97D4E4D5255424D400944D34 /* MockMainPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMainPresenter.swift; sourceTree = "<group>"; };
+		97D4E4DB255425B000944D34 /* MockWeatherItemRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWeatherItemRepository.swift; sourceTree = "<group>"; };
 		99119821501E65A010D2B3B2 /* Pods-LaboratoryWeatherApp-LaboratoryWeatherAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LaboratoryWeatherApp-LaboratoryWeatherAppUITests.debug.xcconfig"; path = "Target Support Files/Pods-LaboratoryWeatherApp-LaboratoryWeatherAppUITests/Pods-LaboratoryWeatherApp-LaboratoryWeatherAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		AB85FB5D15AFD4D8696A6D2B /* Pods-LaboratoryWeatherAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LaboratoryWeatherAppTests.release.xcconfig"; path = "Target Support Files/Pods-LaboratoryWeatherAppTests/Pods-LaboratoryWeatherAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		DB238EBD6452C804236EFDC5 /* Pods-LaboratoryWeatherApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LaboratoryWeatherApp.release.xcconfig"; path = "Target Support Files/Pods-LaboratoryWeatherApp/Pods-LaboratoryWeatherApp.release.xcconfig"; sourceTree = "<group>"; };
@@ -305,12 +317,26 @@
 		97C1A2A62547191800CB64BB /* LaboratoryWeatherAppUnitTest */ = {
 			isa = PBXGroup;
 			children = (
+				97D4E4C82554225600944D34 /* Mocks */,
 				97404C6A255142FE00597284 /* PresenterUnitTests.swift */,
 				97C1A2B82550835300CB64BB /* ViewControllerTests.swift */,
 				97C1A2A72547191800CB64BB /* LaboratoryWeatherAppUnitTest.swift */,
 				97C1A2A92547191800CB64BB /* Info.plist */,
 			);
 			path = LaboratoryWeatherAppUnitTest;
+			sourceTree = "<group>";
+		};
+		97D4E4C82554225600944D34 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				97D4E4C42554224E00944D34 /* MockMainViewProtocol.swift */,
+				97D4E4CF2554243900944D34 /* MockWeatherNetworkProtocol.swift */,
+				97D4E4D5255424D400944D34 /* MockMainPresenter.swift */,
+				97D4E4DB255425B000944D34 /* MockWeatherItemRepository.swift */,
+				97C5D78025542C09002704B4 /* MockWeatherCell.swift */,
+				97C5D78425542DAE002704B4 /* MockReachability.swift */,
+			);
+			path = Mocks;
 			sourceTree = "<group>";
 		};
 		F8349F7A520F0F33FC885A9F /* Pods */ = {
@@ -497,9 +523,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				97C5D78525542DAE002704B4 /* MockReachability.swift in Sources */,
 				97C1A2B92550835300CB64BB /* ViewControllerTests.swift in Sources */,
 				97C1A2A82547191800CB64BB /* LaboratoryWeatherAppUnitTest.swift in Sources */,
+				97C5D78125542C09002704B4 /* MockWeatherCell.swift in Sources */,
+				97D4E4DC255425B000944D34 /* MockWeatherItemRepository.swift in Sources */,
+				97D4E4D02554243900944D34 /* MockWeatherNetworkProtocol.swift in Sources */,
 				97404C6B255142FE00597284 /* PresenterUnitTests.swift in Sources */,
+				97D4E4D6255424D400944D34 /* MockMainPresenter.swift in Sources */,
+				97D4E4C52554224E00944D34 /* MockMainViewProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
