@@ -17,7 +17,8 @@ class ModuleBuilder: Builder {
         let view = MainMVPViewController()
         let weatherNetwork = WeatherNetwork()
         let repository = WeatherItemRepository()
-        let presenter = MainPresenter(view: view, weatherNetwork: weatherNetwork, repository: repository)
+        let reachability = NetworkReachabilityManager()
+        let presenter = MainPresenter(view: view, weatherNetwork: weatherNetwork, repository: repository, reachability: reachability)
         view.presenter = presenter
         return view
     }

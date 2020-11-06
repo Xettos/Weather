@@ -8,7 +8,13 @@
 import Foundation
 import Reachability
 
-class NetworkReachabilityManager: NSObject {
+protocol NetworkReachabilityProtocol {
+    static func isReachable(completed: @escaping (NetworkReachabilityManager) -> Void)
+    static func isUnreachable(completed: @escaping (NetworkReachabilityManager) -> Void)
+}
+
+class NetworkReachabilityManager: NSObject, NetworkReachabilityProtocol {
+    
     var reachability: Reachability!
     static let sharedInstance: NetworkReachabilityManager = {
         return NetworkReachabilityManager()

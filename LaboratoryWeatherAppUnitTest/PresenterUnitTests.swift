@@ -14,14 +14,12 @@ class PresenterUnitTests: XCTestCase {
     var view: MockMainViewProtocol!
     var mockWeatherNetwork: WeatherNetwork!
     var repository: MockWeatherItemRepository!
-    var reachabilityManager: MockNetworkReachabilityManager!
 
     override func setUpWithError() throws {
         view = MockMainViewProtocol()
         mockWeatherNetwork = WeatherNetwork()
         repository = MockWeatherItemRepository()
         presenter = MainPresenter(view: view, weatherNetwork: mockWeatherNetwork, repository: repository)
-        reachabilityManager = MockNetworkReachabilityManager()
     }
 
     override func tearDownWithError() throws {

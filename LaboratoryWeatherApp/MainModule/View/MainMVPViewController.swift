@@ -29,14 +29,12 @@ class MainMVPViewController: UIViewController {
         presenter.fetchResultcontroller?.delegate = self
         let cellNib = UINib(nibName: "WeatherCell", bundle: nil)
         dailyWeatherTable.register(cellNib, forCellReuseIdentifier: "WeatherCell")
-        presenter.setCurrentWeather(cityLable: cityLable,
-                                    weatherLable: weatherStateLable,
-                                    temperatureLabel: temperatureLable)
+        presenter.setCurrentWeather(view: self)
         dailyWeatherTable.refreshControl = refreshControl
     }
     
     @objc private func refresh(sender: UIRefreshControl) {
-        presenter.gettingData()
+        presenter.getData()
         dailyWeatherTable.reloadData()
         sender.endRefreshing()
     }
@@ -55,6 +53,13 @@ extension MainMVPViewController: UITableViewDataSource {
 }
 
 extension MainMVPViewController: MainViewProtocol {
+    func updateLables(weather: [DailyWeather]) {
+        let weatherElements = weather.first?.weatherElement?.allObjects as? [WeatherElements]
+        self.cityLable.text = cities[0].name
+        self.weatherStateLable.text = weatherElements?.first?.weatherState
+        self.temperatureLable.text = "\(Int(weather.first?.temperature?.day ?? 99))" + "°C"
+    }
+    
     func showSpinnerView() {
         showSpinner()
     }
@@ -65,7 +70,7 @@ extension MainMVPViewController: MainViewProtocol {
     
     func success() {
         dailyWeatherTable.reloadData()
-        presenter.setCurrentWeather(cityLable: cityLable, weatherLable: weatherStateLable, temperatureLabel: temperatureLable)
+        presenter.setCurrentWeather(view: self)
     }
     
     func failure(error: Error) {

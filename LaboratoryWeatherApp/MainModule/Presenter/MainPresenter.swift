@@ -14,51 +14,51 @@ protocol MainViewProtocol: class {
     func removeSpinnerView()
     func success()
     func failure(error: Error)
+    func updateLables(weather: [DailyWeather])
 }
 
 protocol MainViewPresenterProtocol: class {
-    init(view: MainViewProtocol, weatherNetwork: WeatherNetworkProtocol, repository: WeatherItemRepository)
+    init(view: MainViewProtocol, weatherNetwork: WeatherNetworkProtocol, repository: WeatherItemRepository, reachability: NetworkReachabilityProtocol)
     
     var weatherInstance: WeatherItem? { get set }
     var weatherDB: [DailyWeather]? { get set }
     var fetchResultcontroller: NSFetchedResultsController<DailyWeather>? { get set }
     
-    func gettingData()
-    func setCurrentWeather(cityLable: UILabel, weatherLable: UILabel, temperatureLabel: UILabel)
+    func getData()
+    func setCurrentWeather(view: MainViewProtocol)
 }
 
 class MainPresenter: MainViewPresenterProtocol {
-    
+
     weak var view: MainViewProtocol?
     let weatherNetwork: WeatherNetworkProtocol!
+    let reachability: NetworkReachabilityProtocol!
+    let repository: WeatherItemRepository
     var weatherInstance: WeatherItem?
     var weatherDB: [DailyWeather]?
     var citiesArray = cities
-    let repository: WeatherItemRepository
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var fetchResultcontroller: NSFetchedResultsController<DailyWeather>?
+
     
-    required init(view: MainViewProtocol, weatherNetwork: WeatherNetworkProtocol, repository: WeatherItemRepository) {
+    required init(view: MainViewProtocol, weatherNetwork: WeatherNetworkProtocol, repository: WeatherItemRepository, reachability: NetworkReachabilityProtocol) {
         self.view = view
         self.weatherNetwork = weatherNetwork
         self.repository = repository
-        self.gettingData()
+        self.reachability = reachability
+        self.getData()
     }
     
-    func setCurrentWeather(cityLable: UILabel, weatherLable: UILabel, temperatureLabel: UILabel) {
+    func setCurrentWeather(view: MainViewProtocol) {
+        
         NetworkReachabilityManager.isReachable { [weak self] _ in
-            let array = (self?.weatherInstance?.daily?.allObjects as? [DailyWeather])?.sorted(by: {$0.date < $1.date})
-            let weatherElements = array?.first?.weatherElement?.allObjects as? [WeatherElements]
-            cityLable.text = cities[0].name
-            weatherLable.text = weatherElements?.first?.weatherState
-            temperatureLabel.text = "\(Int(array?.first?.temperature?.day ?? 99))" + "°C"
+            guard let weatherArray = (self?.weatherInstance?.daily?.allObjects as? [DailyWeather])?.sorted(by: {$0.date < $1.date}) else { return }
+            view.updateLables(weather: weatherArray)
         }
         
         NetworkReachabilityManager.isUnreachable { [weak self] _ in
-            let fetchedObjects = self?.fetchResultcontroller?.fetchedObjects
-            cityLable.text = cities[0].name
-            weatherLable.text = (fetchedObjects?.first?.weatherElement?.allObjects as? [WeatherElements])?.first?.weatherState
-            temperatureLabel.text = "\(Int(fetchedObjects?.first?.temperature?.day ?? 99))" + "°C"
+            guard let fetchedObjects = self?.fetchResultcontroller?.fetchedObjects else { return }
+            view.updateLables(weather: fetchedObjects)
         }
     }
     
@@ -97,7 +97,7 @@ class MainPresenter: MainViewPresenterProtocol {
         }
     }
     
-    func gettingData() {
+    func getData() {
         NetworkReachabilityManager.isReachable { [weak self] _ in
             self?.getWeather()
             self?.getFetchController()

@@ -9,6 +9,12 @@ import XCTest
 @testable import LaboratoryWeatherApp
 
 class MockMainViewProtocol: MainViewProtocol {
+    var cityLabel: UILabel!
+    
+    var weatherLabel: UILabel!
+    
+    var temperatureLabel: UILabel!
+    
     var spinnerIsShown = false
     var spinnerIsRemoved = false
     var succeed = false
