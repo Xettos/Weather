@@ -18,14 +18,14 @@ protocol MainViewProtocol: class {
 }
 
 protocol MainViewPresenterProtocol: class {
-    init(view: MainViewProtocol, weatherNetwork: WeatherNetworkProtocol, repository: WeatherItemRepository, reachability: NetworkReachabilityProtocol)
-    
     var weatherInstance: WeatherItem? { get set }
     var weatherDB: [DailyWeather]? { get set }
     var fetchResultcontroller: NSFetchedResultsController<DailyWeather>? { get set }
     
     func getData()
     func setCurrentWeather(view: MainViewProtocol)
+    
+    init(view: MainViewProtocol, weatherNetwork: WeatherNetworkProtocol, repository: WeatherItemRepository, reachability: NetworkReachabilityProtocol)
 }
 
 class MainPresenter: MainViewPresenterProtocol {
@@ -51,12 +51,12 @@ class MainPresenter: MainViewPresenterProtocol {
     
     func setCurrentWeather(view: MainViewProtocol) {
         
-        NetworkReachabilityManager.isReachable { [weak self] _ in
+        reachability.isReachable { [weak self] _ in
             guard let weatherArray = (self?.weatherInstance?.daily?.allObjects as? [DailyWeather])?.sorted(by: {$0.date < $1.date}) else { return }
             view.updateLables(weather: weatherArray)
         }
         
-        NetworkReachabilityManager.isUnreachable { [weak self] _ in
+        reachability.isUnreachable { [weak self] _ in
             guard let fetchedObjects = self?.fetchResultcontroller?.fetchedObjects else { return }
             view.updateLables(weather: fetchedObjects)
         }
@@ -98,12 +98,12 @@ class MainPresenter: MainViewPresenterProtocol {
     }
     
     func getData() {
-        NetworkReachabilityManager.isReachable { [weak self] _ in
+        reachability.isReachable { [weak self] _ in
             self?.getWeather()
             self?.getFetchController()
         }
         
-        NetworkReachabilityManager.isUnreachable { [weak self] _ in
+        reachability.isUnreachable { [weak self] _ in
             self?.getFetchController()
             DispatchQueue.main.async {
                 self?.view?.success()

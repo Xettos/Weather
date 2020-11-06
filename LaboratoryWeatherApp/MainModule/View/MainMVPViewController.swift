@@ -55,9 +55,9 @@ extension MainMVPViewController: UITableViewDataSource {
 extension MainMVPViewController: MainViewProtocol {
     func updateLables(weather: [DailyWeather]) {
         let weatherElements = weather.first?.weatherElement?.allObjects as? [WeatherElements]
-        self.cityLable.text = cities[0].name
-        self.weatherStateLable.text = weatherElements?.first?.weatherState
-        self.temperatureLable.text = "\(Int(weather.first?.temperature?.day ?? 99))" + "°C"
+        cityLable.text = cities[0].name
+        weatherStateLable.text = weatherElements?.first?.weatherState
+        temperatureLable.text = "\(Int(weather.first?.temperature?.day ?? 99))" + "°C"
     }
     
     func showSpinnerView() {
