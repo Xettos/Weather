@@ -51,13 +51,11 @@ class MainPresenter: MainViewPresenterProtocol {
     
     func setCurrentWeather(view: MainViewProtocol) {
         
-        reachability.isReachable { [weak self] _ in
-            guard let weatherArray = (self?.weatherInstance?.daily?.allObjects as? [DailyWeather])?.sorted(by: {$0.date < $1.date}) else { return }
+        if reachability.isReachable {
+            guard let weatherArray = (self.weatherInstance?.daily?.allObjects as? [DailyWeather])?.sorted(by: {$0.date < $1.date}) else { return }
             view.updateLables(weather: weatherArray)
-        }
-        
-        reachability.isUnreachable { [weak self] _ in
-            guard let fetchedObjects = self?.fetchResultcontroller?.fetchedObjects else { return }
+        } else {
+            guard let fetchedObjects = self.fetchResultcontroller?.fetchedObjects else { return }
             view.updateLables(weather: fetchedObjects)
         }
     }
@@ -98,16 +96,14 @@ class MainPresenter: MainViewPresenterProtocol {
     }
     
     func getData() {
-        reachability.isReachable { [weak self] _ in
-            self?.getWeather()
-            self?.getFetchController()
-        }
-        
-        reachability.isUnreachable { [weak self] _ in
-            self?.getFetchController()
+       if reachability.isReachable {
+        self.getWeather()
+        self.getFetchController()
+       } else {
+        self.getFetchController()
             DispatchQueue.main.async {
-                self?.view?.success()
-                self?.view?.removeSpinnerView()
+                self.view?.success()
+                self.view?.removeSpinnerView()
             }
         }
     }

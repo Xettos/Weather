@@ -11,7 +11,7 @@ import XCTest
 class MockMainPresenter: MainPresenter {
     var weatherIsSet = false
     
-    override func setCurrentWeather(cityLable: UILabel, weatherLable: UILabel, temperatureLabel: UILabel) {
+    override func setCurrentWeather(view: MainViewProtocol) {
         weatherIsSet = true
     }
 }

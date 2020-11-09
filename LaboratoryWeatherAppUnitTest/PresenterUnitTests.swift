@@ -9,24 +9,27 @@ import XCTest
 @testable import LaboratoryWeatherApp
 
 class PresenterUnitTests: XCTestCase {
-
+    
     var presenter: MainPresenter!
     var view: MockMainViewProtocol!
     var mockWeatherNetwork: WeatherNetwork!
     var repository: MockWeatherItemRepository!
-
+    var reachability: MockNetworkReachabilityProtocol!
+    
     override func setUpWithError() throws {
         view = MockMainViewProtocol()
         mockWeatherNetwork = WeatherNetwork()
         repository = MockWeatherItemRepository()
-        presenter = MainPresenter(view: view, weatherNetwork: mockWeatherNetwork, repository: repository)
+        reachability = MockNetworkReachabilityProtocol()
+        presenter = MainPresenter(view: view, weatherNetwork: mockWeatherNetwork, repository: repository, reachability: reachability)
     }
-
+    
     override func tearDownWithError() throws {
         presenter = nil
         view = nil
         mockWeatherNetwork = nil
         repository = nil
+        reachability = nil
     }
     
     func testSavingToDB() {
@@ -41,19 +44,11 @@ class PresenterUnitTests: XCTestCase {
         XCTAssertTrue(repository.savingCompleted)
     }
     
-    func testGetUnreachableData() {
-        let promise = expectation(description: "unreachable async task ")
+    func testSetWeatherWithoutReachability() {
+        reachability.isReachable = false
         
-        MockNetworkReachabilityManager.isReachable { [weak self]_ in
-            self?.presenter.repository.fetch()
-            promise.fulfill()
-        }
+        presenter.setCurrentWeather(view: view)
         
-        MockNetworkReachabilityManager.isUnreachable { [weak self]_ in
-            self?.presenter.repository.fetch()
-            promise.fulfill()
-        }
-        waitForExpectations(timeout: 2)
-        XCTAssertTrue(repository.fetchingCompleted)
+        XCTAssertTrue(view.updatedLabels, "Weather is set")
     }
 }

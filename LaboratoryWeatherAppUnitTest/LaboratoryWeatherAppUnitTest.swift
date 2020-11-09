@@ -16,8 +16,8 @@ class LaboratoryWeatherAppUnitTests: XCTestCase {
     var weatherNetwork: MockWeatherNetworkProtocol!
     var repository: MockWeatherItemRepository!
     var mockCell: MockCell!
-    var sessionUnderTest: URLSession!
     var formatter: WeekDayFormatter!
+    var reachability: MockNetworkReachabilityProtocol!
     
     override func setUpWithError() throws {
         super.setUp()
@@ -25,7 +25,8 @@ class LaboratoryWeatherAppUnitTests: XCTestCase {
         weatherNetwork = MockWeatherNetworkProtocol()
         repository = MockWeatherItemRepository()
         mockCell = MockCell()
-        presenter = MainPresenter(view: view, weatherNetwork: weatherNetwork, repository: repository)
+        reachability = MockNetworkReachabilityProtocol()
+        presenter = MainPresenter(view: view, weatherNetwork: weatherNetwork, repository: repository, reachability: reachability)
         formatter = WeekDayFormatter()
     }
     
@@ -36,7 +37,6 @@ class LaboratoryWeatherAppUnitTests: XCTestCase {
         repository = nil
         weatherNetwork = nil
         mockCell = nil
-        sessionUnderTest = nil
         formatter = nil
     }
     
@@ -57,14 +57,13 @@ class LaboratoryWeatherAppUnitTests: XCTestCase {
             switch result {
             case .success(_):
                 promise.fulfill()
+                XCTAssertTrue(true)
             case.failure(let error):
                 promise.fulfill()
                 XCTFail(error.localizedDescription)
             }
         }
-        waitForExpectations(timeout: 2)
-        
-        XCTAssertTrue(weatherNetwork.callCompleted, "call completed")
+        waitForExpectations(timeout: 4)
     }
     
     func testWeekdayformatter() {

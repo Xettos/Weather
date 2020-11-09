@@ -8,8 +8,6 @@
 import XCTest
 @testable import LaboratoryWeatherApp
 
-class MockNetworkReachabilityManager: NetworkReachabilityManager {
-    static var shared: MockNetworkReachabilityManager = {
-        return MockNetworkReachabilityManager()
-    }()
+class MockNetworkReachabilityProtocol: NetworkReachabilityProtocol {
+    var isReachable = false
 }

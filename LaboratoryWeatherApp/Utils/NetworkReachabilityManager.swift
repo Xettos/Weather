@@ -9,12 +9,12 @@ import Foundation
 import Reachability
 
 protocol NetworkReachabilityProtocol {
-     func isReachable(completed: @escaping (NetworkReachabilityManager) -> Void)
-    func isUnreachable(completed: @escaping (NetworkReachabilityManager) -> Void)
+    var isReachable: Bool { get }
 }
 
 class NetworkReachabilityManager: NSObject, NetworkReachabilityProtocol {
-    
+    var isReachable = false
+ 
     var reachability: Reachability!
     static let sharedInstance: NetworkReachabilityManager = {
         return NetworkReachabilityManager()
@@ -35,7 +35,11 @@ class NetworkReachabilityManager: NSObject, NetworkReachabilityProtocol {
             try reachability.startNotifier()
         } catch {
             print("Unable to start notifier")
-        }
+        } 
+        if reachability.connection != .unavailable {
+            isReachable =  true } else {
+                isReachable = false
+            }
     }
     @objc func networkStatusChanged(_ notification: Notification) {
         // Do something globally here!
@@ -56,7 +60,7 @@ class NetworkReachabilityManager: NSObject, NetworkReachabilityProtocol {
         }
     }
     // Network is unreachable
-     static func isUnreachable(completed: @escaping (NetworkReachabilityManager) -> Void) {
+      func isUnreachable(completed: @escaping (NetworkReachabilityManager) -> Void) {
         if (NetworkReachabilityManager.sharedInstance.reachability).connection == .unavailable {
             completed(NetworkReachabilityManager.sharedInstance)
         }
@@ -70,21 +74,6 @@ class NetworkReachabilityManager: NSObject, NetworkReachabilityProtocol {
     // Network is reachable via WiFi
     static func isReachableViaWiFi(completed: @escaping (NetworkReachabilityManager) -> Void) {
         if (NetworkReachabilityManager.sharedInstance.reachability).connection == .wifi {
-            completed(NetworkReachabilityManager.sharedInstance)
-        }
-    }
-}
-
-extension NetworkReachabilityProtocol {
-    // Network is reachable
-     func isReachable(completed: @escaping (NetworkReachabilityManager) -> Void) {
-        if (NetworkReachabilityManager.sharedInstance.reachability).connection != .unavailable {
-            completed(NetworkReachabilityManager.sharedInstance)
-        }
-    }
-    // Network is unreachable
-    func isUnreachable(completed: @escaping (NetworkReachabilityManager) -> Void) {
-        if (NetworkReachabilityManager.sharedInstance.reachability).connection == .unavailable {
             completed(NetworkReachabilityManager.sharedInstance)
         }
     }

@@ -9,16 +9,12 @@ import XCTest
 @testable import LaboratoryWeatherApp
 
 class MockMainViewProtocol: MainViewProtocol {
-    var cityLabel: UILabel!
-    
-    var weatherLabel: UILabel!
-    
-    var temperatureLabel: UILabel!
-    
+        
     var spinnerIsShown = false
     var spinnerIsRemoved = false
     var succeed = false
     var failured = false
+    var updatedLabels = false
     
     func showSpinnerView() {
         spinnerIsShown = true
@@ -34,5 +30,9 @@ class MockMainViewProtocol: MainViewProtocol {
     
     func failure(error: Error) {
         failured = true
+    }
+    
+    func updateLables(weather: [DailyWeather]) {
+        updatedLabels = true
     }
 }

@@ -15,6 +15,7 @@ class ViewControllerTests: XCTestCase {
     var viewController = MainMVPViewController()
     var mockView: MockMainViewProtocol!
     var mockRepository: WeatherItemRepository!
+    var reachability: MockNetworkReachabilityProtocol!
     
     
     override func setUpWithError() throws {
@@ -22,7 +23,8 @@ class ViewControllerTests: XCTestCase {
         mockView = MockMainViewProtocol()
         weatherNetwork = MockWeatherNetworkProtocol()
         mockRepository = WeatherItemRepository()
-        presenter = MockMainPresenter(view: mockView, weatherNetwork: weatherNetwork, repository: mockRepository)
+        reachability = MockNetworkReachabilityProtocol()
+        presenter = MockMainPresenter(view: mockView, weatherNetwork: weatherNetwork, repository: mockRepository, reachability: reachability)
     }
     
     override func tearDownWithError() throws {
@@ -33,11 +35,7 @@ class ViewControllerTests: XCTestCase {
     }
     
     func testSetWeather() throws {
-        let lable1 = UILabel()
-        let lable2 = UILabel()
-        let lable3 = UILabel()
-        
-        presenter.setCurrentWeather(cityLable: lable1, weatherLable: lable2, temperatureLabel: lable3)
+        presenter.setCurrentWeather(view: mockView)
         
         XCTAssertTrue(presenter.weatherIsSet, "Weather is set")
     }
@@ -62,5 +60,12 @@ class ViewControllerTests: XCTestCase {
         
         presenter.view?.failure(error: ErrorForTest() as Error)
         XCTAssertTrue(self.mockView.failured)
+    }
+    
+    func testUpdateLabels() {
+
+        presenter.view?.updateLables(weather: [DailyWeather]())
+        
+        XCTAssertTrue(self.mockView.updatedLabels)
     }
 }
